@@ -1,15 +1,15 @@
 package com.shaji.javaee.offers.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class User {
 
 	private int id;
 	private String name;
 
-	@JsonCreator
-	public User(@JsonProperty("id") int id, @JsonProperty("name") String name) {
+	public User() {
+
+	}
+
+	public User(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
