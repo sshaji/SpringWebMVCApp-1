@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,10 +32,11 @@ public class OffersDAO {
 	 * 
 	 * @return
 	 */
-	public List<Offer> getOffers() {
-		String sql = "select * from offers";
+	public List<Offer> getOffers(int limit) {
+		MapSqlParameterSource paramMap = new MapSqlParameterSource("limit", limit);
+		String sql = "select * from offers limit :limit";
 
-		return jdbc.query(sql, new RowMapper<Offer>() {
+		return jdbc.query(sql, paramMap, new RowMapper<Offer>() {
 
 			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Offer offer = new Offer();
@@ -72,13 +74,18 @@ public class OffersDAO {
 	 * Create an offer
 	 * 
 	 * @param offer
-	 * @return
+	 * @return id of the created record
 	 */
 	public int createOffer(Offer offer) {
 		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(offer);
 		String sql = "insert into offers (name, email, offerdetails) values (:name, :email, :offerDetails)";
 
-		return jdbc.update(sql, paramSource);
+		GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+		if (jdbc.update(sql, paramSource, generatedKeyHolder) == 1) {
+			return generatedKeyHolder.getKey().intValue();
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -87,11 +94,11 @@ public class OffersDAO {
 	 * @param offer
 	 * @return
 	 */
-	public int updateOffer(Offer offer) {
+	public boolean updateOffer(Offer offer) {
 		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(offer);
 		String sql = "update offers set name = :name, email = :email, offerdetails = :offerDetails where id = :id";
 
-		return jdbc.update(sql, paramSource);
+		return jdbc.update(sql, paramSource) == 1;
 	}
 
 	/**
