@@ -20,6 +20,8 @@ import com.shaji.javaee.offers.model.OffersDAO;
 @RequestMapping(value = "/v1")
 public class OfferRestAPIController {
 
+	private String DaoContextXmlUrl = "classpath:com/shaji/javaee/offers/config/dao-context.xml";
+
 	/**
 	 * Get all
 	 * 
@@ -28,7 +30,7 @@ public class OfferRestAPIController {
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody List<Offer> getAll(
 			@RequestParam(name = "limit", required = false, defaultValue = "5") int limit) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("com/shaji/javaee/offers/beans/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		List<Offer> retOffers = null;
 		try {
@@ -48,7 +50,7 @@ public class OfferRestAPIController {
 	 */
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
 	public @ResponseBody Offer get(@PathVariable("id") int id) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("com/shaji/javaee/offers/beans/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		Offer retOffer = null;
 		try {
@@ -68,7 +70,7 @@ public class OfferRestAPIController {
 	 */
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public @ResponseBody Offer post(@RequestBody Offer offer) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("com/shaji/javaee/offers/beans/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		Offer retOffer = null;
 		try {
@@ -91,7 +93,7 @@ public class OfferRestAPIController {
 	 */
 	@RequestMapping(value = "/users", method = RequestMethod.PUT)
 	public @ResponseBody Offer put(@RequestBody Offer offer) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("com/shaji/javaee/offers/beans/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		Offer retOffer = null;
 		try {
@@ -113,7 +115,7 @@ public class OfferRestAPIController {
 	 */
 	@RequestMapping(value = "/users/masscreate", method = RequestMethod.POST)
 	public @ResponseBody List<Offer> post(@RequestBody List<Offer> offers) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("com/shaji/javaee/offers/beans/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offersDao.createOffers(offers);
@@ -132,7 +134,7 @@ public class OfferRestAPIController {
 	 */
 	@RequestMapping(value = "/users/massupdate", method = RequestMethod.POST)
 	public @ResponseBody List<Offer> put(@RequestBody List<Offer> offers) {
-		ApplicationContext context = new ClassPathXmlApplicationContext("com/shaji/javaee/offers/beans/beans.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offersDao.updateOffers(offers);

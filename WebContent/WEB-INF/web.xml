@@ -9,6 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
   <servlet>
     <description></description>
     <display-name>web</display-name>
@@ -20,6 +21,7 @@
     <servlet-name>web</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <description></description>
     <display-name>rest</display-name>
@@ -34,9 +36,20 @@
   
   <description>MySQL Test Db</description>
   <resource-ref>
-      <description>DB Connection</description>
-      <res-ref-name>jdbc/testDb</res-ref-name>
-      <res-type>javax.sql.DataSource</res-type>
-      <res-auth>Container</res-auth>
+  	<description>DB Connection</description>
+  	<res-ref-name>jdbc/testDb</res-ref-name>
+  	<res-type>javax.sql.DataSource</res-type>
+  	<res-auth>Container</res-auth>
   </resource-ref>
+  
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>
+  		classpath:com/shaji/javaee/offers/config/dao-context.xml
+  	</param-value>
+  </context-param>
 </web-app>

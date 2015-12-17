@@ -9,7 +9,6 @@
 	<configs>
 		<config>WebContent/WEB-INF/web-servlet.xml</config>
 		<config>WebContent/WEB-INF/rest-servlet.xml</config>
-		<config>src/com/shaji/javaee/offers/beans/beans.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
