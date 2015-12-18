@@ -11,15 +11,15 @@
 	<context:property-placeholder
 		location="classpath:com/shaji/javaee/offers/props/jdbc.properties" />
 
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
 		destroy-method="close"> <property name="username" value="${jdbc.username}"></property> 
 		<property name="password" value="${jdbc.password}"></property> <property 
 		name="driverClassName" value="${jdbc.driver}"></property> <property name="url" 
-		value="${jdbc.url}"></property> </bean> -->
+		value="${jdbc.url}"></property> </bean>
 
-	<jee:jndi-lookup jndi-name="jdbc/testDb" id="dataSource"
+	<!-- <jee:jndi-lookup jndi-name="jdbc/testDb" id="dataSource"
 		expected-type="javax.sql.DataSource">
-	</jee:jndi-lookup>
+	</jee:jndi-lookup> -->
 
 	<tx:annotation-driven />
 	<bean id="transactionManager"
