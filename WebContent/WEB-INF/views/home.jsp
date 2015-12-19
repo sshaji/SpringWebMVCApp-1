@@ -9,7 +9,7 @@
 <title>Home</title>
 </head>
 <body>
-	<b>Offers</b>
+	<b>Offers - Direct access using server code</b>
 	<p />
 	<sql:query var="rs" dataSource="jdbc/testDb">
 		select name, email, offerdetails from offers

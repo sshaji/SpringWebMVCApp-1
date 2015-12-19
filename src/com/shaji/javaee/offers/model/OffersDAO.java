@@ -98,6 +98,20 @@ public class OffersDAO {
 	}
 
 	/**
+	 * Delete an offer
+	 * 
+	 * @param id
+	 * @param offer
+	 * @return
+	 */
+	public boolean deleteOffer(int id) {
+		MapSqlParameterSource paramMap = new MapSqlParameterSource("id", id);
+		String sql = "delete from offers where id = :id";
+
+		return jdbc.update(sql, paramMap) == 1;
+	}
+
+	/**
 	 * Create multiple offers - Transaction
 	 * 
 	 * @param offers

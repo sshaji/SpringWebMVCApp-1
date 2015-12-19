@@ -28,7 +28,7 @@ public class OfferRestAPIController {
 	 * @return
 	 */
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public @ResponseBody List<Offer> getAll(
+	public @ResponseBody List<Offer> get(
 			@RequestParam(name = "limit", required = false, defaultValue = "5") int limit) {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
@@ -49,7 +49,7 @@ public class OfferRestAPIController {
 	 * @return
 	 */
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-	public @ResponseBody Offer get(@PathVariable("id") int id) {
+	public @ResponseBody Offer getById(@PathVariable("id") int id) {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		Offer retOffer = null;
@@ -69,7 +69,7 @@ public class OfferRestAPIController {
 	 * @return
 	 */
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	public @ResponseBody Offer post(@RequestBody Offer offer) {
+	public @ResponseBody Offer create(@RequestBody Offer offer) {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		Offer retOffer = null;
@@ -91,12 +91,13 @@ public class OfferRestAPIController {
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping(value = "/users", method = RequestMethod.PUT)
-	public @ResponseBody Offer put(@RequestBody Offer offer) {
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
+	public @ResponseBody Offer update(@PathVariable("id") int id, @RequestBody Offer offer) {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		Offer retOffer = null;
 		try {
+			offer.setId(id);
 			if (offersDao.updateOffer(offer)) {
 				retOffer = offersDao.getOfferById(offer.getId());
 			}
@@ -108,22 +109,43 @@ public class OfferRestAPIController {
 	}
 
 	/**
+	 * Delete an offer
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+	public @ResponseBody String delete(@PathVariable("id") int id) {
+		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
+		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
+		try {
+			offersDao.deleteOffer(id);
+		} catch (DataAccessException ex) {
+			return "failure";
+		} finally {
+			((ClassPathXmlApplicationContext) context).close();
+		}
+		return "success";
+	}
+
+	/**
 	 * Mass create
 	 * 
 	 * @param users
 	 * @return
 	 */
 	@RequestMapping(value = "/users/masscreate", method = RequestMethod.POST)
-	public @ResponseBody List<Offer> post(@RequestBody List<Offer> offers) {
+	public @ResponseBody String massCreate(@RequestBody List<Offer> offers) {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offersDao.createOffers(offers);
 		} catch (DataAccessException ex) {
-
+			return "failure";
+		} finally {
+			((ClassPathXmlApplicationContext) context).close();
 		}
-		((ClassPathXmlApplicationContext) context).close();
-		return offers;
+		return "success";
 	}
 
 	/**
@@ -132,16 +154,17 @@ public class OfferRestAPIController {
 	 * @param offers
 	 * @return
 	 */
-	@RequestMapping(value = "/users/massupdate", method = RequestMethod.POST)
-	public @ResponseBody List<Offer> put(@RequestBody List<Offer> offers) {
+	@RequestMapping(value = "/users/massupdate", method = RequestMethod.PUT)
+	public @ResponseBody String massUpdate(@RequestBody List<Offer> offers) {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offersDao.updateOffers(offers);
 		} catch (DataAccessException ex) {
-
+			return "failure";
+		} finally {
+			((ClassPathXmlApplicationContext) context).close();
 		}
-		((ClassPathXmlApplicationContext) context).close();
-		return offers;
+		return "success";
 	}
 }
