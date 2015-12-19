@@ -39,12 +39,8 @@ public class OffersDAO {
 		return jdbc.query(sql, paramMap, new RowMapper<Offer>() {
 
 			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Offer offer = new Offer();
-				offer.setId(rs.getInt("id"));
-				offer.setName(rs.getString("name"));
-				offer.setEmail(rs.getString("email"));
-				offer.setOfferDetails(rs.getString("offerdetails"));
-				return offer;
+				return new Offer(rs.getInt("id"), rs.getString("name"), rs.getString("email"),
+						rs.getString("offerdetails"));
 			}
 
 		});
