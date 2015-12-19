@@ -6,9 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class OffersController {
-	@RequestMapping("/")
+	@RequestMapping(value = "/")
 	public String showHome(Model model) {
-		model.addAttribute("name", "Shaji");
+		model.addAttribute("test", "Test");
 		return "home";
+	}
+	
+	@RequestMapping(value = "/2")
+	public String showHomeNoAjax(Model model) {
+		model.addAttribute("test", "Test");
+		return "home2";
 	}
 }
