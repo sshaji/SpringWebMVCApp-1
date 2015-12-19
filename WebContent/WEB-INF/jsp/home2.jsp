@@ -7,21 +7,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Home</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
-	<b>Offers - Direct access using server code</b>
-	<p />
+	<!-- BEGIN: Server code. -->
 	<sql:query var="rs" dataSource="jdbc/testDb">
 		select name, email, offerdetails from offers
 	</sql:query>
-	<table border="1">
-		<c:forEach var="row" items="${rs.rows}">
-			<tr>
-				<td>${row.name}</td>
-				<td>${row.email}</td>
-				<td>${row.offerdetails}</td>
-			</tr>
-		</c:forEach>
-	</table>
+	<div class="panel panel-default">
+		<div class="panel-heading">Offers - Direct access from server</div>
+		<div class="panel-body">
+			<table class="table table-striped">
+				<c:forEach var="row" items="${rs.rows}">
+					<tr>
+						<td>${row.name}</td>
+						<td>${row.email}</td>
+						<td>${row.offerdetails}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
+	<!-- END: Server code. -->
 </body>
 </html>
