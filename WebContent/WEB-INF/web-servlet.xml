@@ -14,10 +14,11 @@
 
 	<bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value=""></property>
-		<property name="suffix" value=".html"></property>
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
 	</bean>
 
-	<mvc:resources location="/WEB-INF/static/" mapping="/static/**">
+	<mvc:resources location="/WEB-INF/static/" mapping="/static/**"
+		cache-period="0">
 	</mvc:resources>
 </beans>
