@@ -1,6 +1,5 @@
-package com.shaji.javaee.offers.restcontrollers;
+package com.shaji.javaee.offers.controllers.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -8,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shaji.javaee.offers.controllers.exceptions.DatabaseErrorException;
+import com.shaji.javaee.offers.controllers.exceptions.RecordNotFoundException;
+import com.shaji.javaee.offers.controllers.exceptions.RestError;
 import com.shaji.javaee.offers.model.Offer;
 import com.shaji.javaee.offers.model.OffersDAO;
 
 @RestController
 @RequestMapping(value = "/v1")
-public class OfferRestAPIController {
+public class RestApiController {
 
 	private String DaoContextXmlUrl = "classpath:com/shaji/javaee/offers/config/dao-context.xml";
 
@@ -29,21 +32,23 @@ public class OfferRestAPIController {
 	 * Get all
 	 * 
 	 * @return
+	 * @throws DatabaseErrorException
 	 */
 	@RequestMapping(value = "/offers", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<List<Offer>> get(
-			@RequestParam(name = "limit", required = false, defaultValue = "25") int limit) {
+			@RequestParam(name = "limit", required = false, defaultValue = "25") int limit)
+					throws DatabaseErrorException {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		List<Offer> retOffers = null;
 		try {
 			retOffers = offersDao.getOffers(limit);
+			return new ResponseEntity<List<Offer>>(retOffers, HttpStatus.OK);
 		} catch (DataAccessException ex) {
-			return new ResponseEntity<List<Offer>>(new ArrayList<Offer>(), HttpStatus.BAD_REQUEST);
+			throw new DatabaseErrorException(ex);
 		} finally {
 			((ClassPathXmlApplicationContext) context).close();
 		}
-		return new ResponseEntity<List<Offer>>(retOffers, HttpStatus.OK);
 	}
 
 	/**
@@ -51,20 +56,26 @@ public class OfferRestAPIController {
 	 * 
 	 * @param id
 	 * @return
+	 * @throws RecordNotFoundException
+	 * @throws DatabaseErrorException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Offer> getById(@PathVariable("id") int id) {
+	public @ResponseBody ResponseEntity<Offer> getById(@PathVariable("id") int id)
+			throws RecordNotFoundException, DatabaseErrorException {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
-		Offer retOffer = null;
 		try {
-			retOffer = offersDao.getOfferById(id);
+			Offer retOffer = offersDao.getOfferById(id);
+			if (retOffer != null) {
+				return new ResponseEntity<Offer>(retOffer, HttpStatus.OK);
+			} else {
+				throw new RecordNotFoundException();
+			}
 		} catch (DataAccessException ex) {
-			return new ResponseEntity<Offer>(new Offer(), HttpStatus.BAD_REQUEST);
+			throw new DatabaseErrorException(ex);
 		} finally {
 			((ClassPathXmlApplicationContext) context).close();
 		}
-		return new ResponseEntity<Offer>(retOffer, HttpStatus.OK);
 	}
 
 	/**
@@ -72,23 +83,21 @@ public class OfferRestAPIController {
 	 * 
 	 * @param user
 	 * @return
+	 * @throws DatabaseErrorException
 	 */
 	@RequestMapping(value = "/offers", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Offer> create(@RequestBody Offer offer) {
+	public @ResponseBody ResponseEntity<Offer> create(@RequestBody Offer offer) throws DatabaseErrorException {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
-		Offer retOffer = null;
 		try {
 			int retId = offersDao.createOffer(offer);
-			if (retId != 0) {
-				retOffer = offersDao.getOfferById(retId);
-			}
+			Offer retOffer = offersDao.getOfferById(retId);
+			return new ResponseEntity<Offer>(retOffer, HttpStatus.CREATED);
 		} catch (DataAccessException ex) {
-			return new ResponseEntity<Offer>(new Offer(), HttpStatus.BAD_REQUEST);
+			throw new DatabaseErrorException(ex);
 		} finally {
 			((ClassPathXmlApplicationContext) context).close();
 		}
-		return new ResponseEntity<Offer>(retOffer, HttpStatus.OK);
 	}
 
 	/**
@@ -96,23 +105,27 @@ public class OfferRestAPIController {
 	 * 
 	 * @param user
 	 * @return
+	 * @throws DatabaseErrorException
+	 * @throws RecordNotFoundException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<Offer> update(@PathVariable("id") int id, @RequestBody Offer offer) {
+	public @ResponseBody ResponseEntity<Offer> update(@PathVariable("id") int id, @RequestBody Offer offer)
+			throws DatabaseErrorException, RecordNotFoundException {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
-		Offer retOffer = null;
 		try {
 			offer.setId(id);
 			if (offersDao.updateOffer(offer)) {
-				retOffer = offersDao.getOfferById(offer.getId());
+				Offer retOffer = offersDao.getOfferById(offer.getId());
+				return new ResponseEntity<Offer>(retOffer, HttpStatus.OK);
+			} else {
+				throw new RecordNotFoundException();
 			}
 		} catch (DataAccessException ex) {
-			return new ResponseEntity<Offer>(new Offer(), HttpStatus.BAD_REQUEST);
+			throw new DatabaseErrorException(ex);
 		} finally {
 			((ClassPathXmlApplicationContext) context).close();
 		}
-		return new ResponseEntity<Offer>(retOffer, HttpStatus.OK);
 	}
 
 	/**
@@ -120,19 +133,25 @@ public class OfferRestAPIController {
 	 * 
 	 * @param id
 	 * @return
+	 * @throws DatabaseErrorException
+	 * @throws RecordNotFoundException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<String> delete(@PathVariable("id") int id) {
+	public @ResponseBody ResponseEntity<String> delete(@PathVariable("id") int id)
+			throws DatabaseErrorException, RecordNotFoundException {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
-			offersDao.deleteOffer(id);
+			if (offersDao.deleteOffer(id)) {
+				return new ResponseEntity<String>("success", HttpStatus.NO_CONTENT);
+			} else {
+				throw new RecordNotFoundException();
+			}
 		} catch (DataAccessException ex) {
-			return new ResponseEntity<String>("failure", HttpStatus.BAD_REQUEST);
+			throw new DatabaseErrorException(ex);
 		} finally {
 			((ClassPathXmlApplicationContext) context).close();
 		}
-		return new ResponseEntity<String>("success", HttpStatus.NO_CONTENT);
 	}
 
 	/**
@@ -140,19 +159,21 @@ public class OfferRestAPIController {
 	 * 
 	 * @param users
 	 * @return
+	 * @throws DatabaseErrorException
 	 */
 	@RequestMapping(value = "/offers/masscreate", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> massCreate(@RequestBody List<Offer> offers) {
+	public @ResponseBody ResponseEntity<String> massCreate(@RequestBody List<Offer> offers)
+			throws DatabaseErrorException {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offersDao.createOffers(offers);
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (DataAccessException ex) {
-			return new ResponseEntity<String>("failure", HttpStatus.BAD_REQUEST);
+			throw new DatabaseErrorException(ex);
 		} finally {
 			((ClassPathXmlApplicationContext) context).close();
 		}
-		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 
 	/**
@@ -160,18 +181,32 @@ public class OfferRestAPIController {
 	 * 
 	 * @param offers
 	 * @return
+	 * @throws DatabaseErrorException
 	 */
 	@RequestMapping(value = "/offers/massupdate", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<String> massUpdate(@RequestBody List<Offer> offers) {
+	public @ResponseBody ResponseEntity<String> massUpdate(@RequestBody List<Offer> offers)
+			throws DatabaseErrorException {
 		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
 		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offersDao.updateOffers(offers);
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (DataAccessException ex) {
-			return new ResponseEntity<String>("failure", HttpStatus.BAD_REQUEST);
+			throw new DatabaseErrorException(ex);
 		} finally {
 			((ClassPathXmlApplicationContext) context).close();
 		}
-		return new ResponseEntity<String>("success", HttpStatus.OK);
+	}
+
+	@ExceptionHandler(RecordNotFoundException.class)
+	public ResponseEntity<RestError> rulesForRecordNotFound() {
+		RestError restError = new RestError("Record not found");
+		return new ResponseEntity<RestError>(restError, HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler(DatabaseErrorException.class)
+	public ResponseEntity<RestError> rulesForDatabaseError(Exception e) {
+		RestError restError = new RestError(e.getCause().toString());
+		return new ResponseEntity<RestError>(restError, HttpStatus.BAD_REQUEST);
 	}
 }

@@ -2,6 +2,7 @@ package com.shaji.javaee.offers.model;
 
 /**
  * Offer Bean
+ * 
  * @author Shaji
  */
 public class Offer {
