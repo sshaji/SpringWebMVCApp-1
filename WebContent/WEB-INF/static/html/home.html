@@ -12,6 +12,11 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
 <script src="static/js/app.js"></script>
+<script src="static/js/collections/offer.js"></script>
+<script src="static/js/views/offer_list.js"></script>
+<script src="static/js/views/offer_edit.js"></script>
+<script src="static/js/models/offer.js"></script>
+<script src="static/js/routers/offer.js"></script>
 <script src="static/js/templates.js"></script>
 </head>
 <body>
@@ -22,22 +27,17 @@
 		<div class="panel-body"></div>
 	</div>
 	<script>
-		app.init();
+		App.init();
 
-		var offerListView = new app.OfferListView();
-
-		var offerEditView = new app.OfferEditView();
-
-		var router = new app.Router();
+		var router = new App.Routers.Offer();
 		router.on('route:home', function() {
-			offerListView.render();
+			new App.Views.OfferListView().render();
 		});
 		router.on('route:editOffer', function(id) {
-			offerEditView.render({
+			new App.Views.OfferEditView().render({
 				id : id
 			});
 		});
-
 		Backbone.history.start();
 	</script>
 	<!-- END: Backbone code. -->
