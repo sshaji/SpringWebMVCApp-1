@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Offers - Home</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
+<script src="static/js/app.js"></script>
+<script src="static/js/templates.js"></script>
+</head>
+<body>
+	<!-- BEGIN: Backbone code. -->
+	<div class="panel panel-default">
+		<div class="panel-heading">Offers - using REST API and
+			Backbone.js</div>
+		<div class="panel-body"></div>
+	</div>
+	<script>
+		app.init();
+
+		var offerListView = new app.OfferListView();
+
+		var offerEditView = new app.OfferEditView();
+
+		var router = new app.Router();
+		router.on('route:home', function() {
+			offerListView.render();
+		});
+		router.on('route:editOffer', function(id) {
+			offerEditView.render({
+				id : id
+			});
+		});
+
+		Backbone.history.start();
+	</script>
+	<!-- END: Backbone code. -->
+</body>
+</html>
