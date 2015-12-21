@@ -5,7 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Offers - Home</title>
-<base href="${pageContext.request.contextPath}/">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
 <script
@@ -14,13 +13,21 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
-<script src="static/js/backbone/app.js"></script>
-<script src="static/js/backbone/collections/offer.js"></script>
-<script src="static/js/backbone/views/offer_list.js"></script>
-<script src="static/js/backbone/views/offer_edit.js"></script>
-<script src="static/js/backbone/models/offer.js"></script>
-<script src="static/js/backbone/routers/offer.js"></script>
-<script src="static/js/backbone/templates.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/backbone/app.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/backbone/collections/offer.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/backbone/views/offer_list.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/backbone/views/offer_edit.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/backbone/models/offer.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/backbone/routers/offer.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/backbone/templates.js"></script>
 </head>
 <body>
 	<!-- BEGIN: Backbone code. -->

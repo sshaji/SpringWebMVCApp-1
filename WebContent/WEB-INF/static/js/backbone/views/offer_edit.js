@@ -2,11 +2,11 @@
 	app.Views.OfferEditView = Backbone.View.extend({
 		el : '.panel-body',
 		render : function(options) {
+			this.router = options.router;
 			if (options.id) {
 				this.offer = new app.Models.Offer({
 					id : options.id
 				});
-				this.router = options.router;
 				var that = this;
 				this.offer.fetch({
 					success : function(offer) {
@@ -40,20 +40,19 @@
 			});
 
 			var that = this;
-			offer.save(null,
-					{
-						success : function(offer) {
-							app.showStatus("Offer saved! Id: "
-									+ offer.get('id'), true);
-							that.router.navigate('', {
-								trigger : true
-							})
-						},
-						error : function(offer, response) {
-							app.showStatus("Error! saving offer : "
-									+ response.statusText, false);
-						}
-					});
+			offer.save(null, {
+				success : function(offer) {
+					Utils.showStatus("Offer saved! Id: " + offer.get('id'),
+							true);
+					that.router.navigate('', {
+						trigger : true
+					})
+				},
+				error : function(offer, response) {
+					Utils.showStatus("Error! saving offer : "
+							+ response.statusText, false);
+				}
+			});
 		},
 		deleteOffer : function(e) {
 			e.preventDefault();
@@ -63,13 +62,13 @@
 			var that = this;
 			offer.destroy({
 				success : function() {
-					app.showStatus("Offer deleted!", true);
+					Utils.showStatus("Offer deleted!", true);
 					that.router.navigate('', {
 						trigger : true
 					})
 				},
 				error : function(response) {
-					app.showStatus("Error! deleting offer : "
+					Utils.showStatus("Error! deleting offer : "
 							+ response.statusText, false);
 				}
 			});
