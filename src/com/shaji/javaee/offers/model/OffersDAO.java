@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OffersDAO {
 
 	private NamedParameterJdbcTemplate jdbc;
+	private GeneratedKeyHolder generatedKeyHolder;
 
 	@Autowired
 	public void setDataSource(DataSource jdbc) {
@@ -34,20 +35,20 @@ public class OffersDAO {
 	 */
 	public List<Offer> getOffers(int offset, int limit, String searchString) {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
-		paramMap.addValue("offset", offset);
-		paramMap.addValue("limit", limit);
-		paramMap.addValue("searchString", "%" + searchString + "%");
 		StringBuffer sql = new StringBuffer();
 		sql.append("select * from offers");
 		if (!searchString.isEmpty()) {
+			paramMap.addValue("searchString", "%" + searchString + "%");
 			sql.append(" ");
 			sql.append("where name like :searchString or email like :searchString or offerdetails like :searchString");
 		}
 		if (limit > 0) {
+			paramMap.addValue("limit", limit);
 			sql.append(" ");
 			sql.append("limit :limit");
 		}
 		if (offset > 0) {
+			paramMap.addValue("offset", offset);
 			sql.append(" ");
 			sql.append("offset :offset");
 		}
@@ -92,7 +93,9 @@ public class OffersDAO {
 		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(offer);
 		String sql = "insert into offers (name, email, offerdetails) values (:name, :email, :offerDetails)";
 
-		GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+		if (generatedKeyHolder == null) {
+			generatedKeyHolder = new GeneratedKeyHolder();
+		}
 		if (jdbc.update(sql, paramSource, generatedKeyHolder) == 1) {
 			return generatedKeyHolder.getKey().intValue();
 		} else {
