@@ -1,6 +1,6 @@
 (function() {
 
-	var app = angular.module('offerList', [ 'ngRoute' ]);
+	var app = angular.module('offersApp', [ 'ngRoute' ]);
 
 	buildUrl = function(url) {
 		return 'rest/v1' + url;
