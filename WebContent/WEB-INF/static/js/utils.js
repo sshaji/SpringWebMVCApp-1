@@ -1,6 +1,10 @@
 (function() {
 	window.Utils = {
 
+		getAccessToken : function() {
+			return "123456789";
+		},
+
 		showStatus : function(message, isSuccess) {
 			$(
 					"<div />",

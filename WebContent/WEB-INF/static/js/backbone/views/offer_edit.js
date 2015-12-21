@@ -9,6 +9,7 @@
 				});
 				var that = this;
 				this.offer.fetch({
+					beforeSend : app.setAccessToken,
 					success : function(offer) {
 						var template = _
 								.template(templates.edit_offer_template);
@@ -41,6 +42,7 @@
 
 			var that = this;
 			offer.save(null, {
+				beforeSend : app.setAccessToken,
 				success : function(offer) {
 					Utils.showStatus("Offer saved! Id: " + offer.get('id'),
 							true);
@@ -61,6 +63,7 @@
 
 			var that = this;
 			offer.destroy({
+				beforeSend : app.setAccessToken,
 				success : function() {
 					Utils.showStatus("Offer deleted!", true);
 					that.router.navigate('', {

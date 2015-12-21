@@ -17,6 +17,10 @@
 			$.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 				options.url = 'rest/v1' + options.url;
 			});
+		},
+
+		setAccessToken : function(xhr) {
+			xhr.setRequestHeader('access_token', Utils.getAccessToken());
 		}
 
 	};
