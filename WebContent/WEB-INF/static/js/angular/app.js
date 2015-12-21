@@ -3,12 +3,17 @@
 	var app = angular.module('offerList', [ 'ngRoute' ]);
 
 	buildUrl = function(url) {
-		return 'rest/v1/' + url;
+		return 'rest/v1' + url;
 	}
 
+	getAccessToken = function() {
+		return "123456789";
+	}
+	
 	app.controller('OfferListController', function($http) {
 		this.offers = [];
 		var that = this;
+		$http.defaults.headers.common.access_token = getAccessToken();
 		$http.get(buildUrl('/offers')).success(function(data) {
 			that.offers = data;
 		});
@@ -20,6 +25,7 @@
 		var id = $routeParams.id;
 		if (id) {
 			var that = this;
+			$http.defaults.headers.common.access_token = getAccessToken();
 			$http.get(buildUrl('/offers/' + id)).success(function(data) {
 				that.offer = data;
 			});
@@ -27,6 +33,7 @@
 
 		this.submitOffer = function() {
 			if (id) {
+				$http.defaults.headers.common.access_token = getAccessToken();
 				$http.put(buildUrl('/offers/' + id), this.offer).success(
 						function(data) {
 							Utils.showStatus("Offer updated! : " + data.id, true);
@@ -35,6 +42,7 @@
 							Utils.showStatus("Error! creating offer : " + status, false);
 				})
 			} else {
+				$http.defaults.headers.common.access_token = getAccessToken();
 				$http.post(buildUrl('/offers'), this.offer).success(
 						function(data) {
 							Utils.showStatus("Offer created! : " + data.id, true);
