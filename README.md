@@ -14,10 +14,10 @@
 * Database name : test
 * Table name : offers
 * Columns :
-* * id (int - primary - auto increment)
-* * name (varchar - 100)
-* * email (varchar - 100)
-* * offerdetails (text)
+- id (int - primary - auto increment)
+- name (varchar - 100)
+- email (varchar - 100)
+- offerdetails (text)
 
 ### Database Connection
 * Default : JNDI
