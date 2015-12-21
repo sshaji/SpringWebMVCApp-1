@@ -29,7 +29,7 @@
 			if (id) {
 				$http.put(buildUrl('/offers/' + id), this.offer).success(
 						function(data) {
-							Utils.showStatus("Offer created! : " + data.id, true);
+							Utils.showStatus("Offer updated! : " + data.id, true);
 							$location.path("/");
 						}).error(function(data, status) {
 							Utils.showStatus("Error! creating offer : " + status, false);
@@ -37,7 +37,7 @@
 			} else {
 				$http.post(buildUrl('/offers'), this.offer).success(
 						function(data) {
-							Utils.showStatus("Offer updated! : " + data.id, true);
+							Utils.showStatus("Offer created! : " + data.id, true);
 							$location.path("/");
 						}).error(function(data, status) {
 							Utils.showStatus("Error! updating offer : " + status, false);

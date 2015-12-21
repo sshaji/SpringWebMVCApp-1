@@ -41,11 +41,14 @@ public class OffersDAOTest extends TestCase {
 		offers.add(new Offer(100, "John", "john@test.com", "I can fix kitchen"));
 		offers.add(new Offer(101, "Ted", "ted@test.com", "I can fix roof"));
 
-		MapSqlParameterSource paramMap = new MapSqlParameterSource("limit", 2);
-		String sql = "select * from offers limit :limit";
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("offset", 1);
+		paramMap.addValue("limit", 2);
+		paramMap.addValue("searchString", "%test%");
+		String sql = "select * from offers where name like :searchString or email like :searchString or offerdetails like :searchString limit :limit offset :offset";
 		when(jdbc.query(eq(sql), refEq(paramMap), any(RowMapper.class))).thenReturn(offers);
 
-		List<Offer> retOffers = offersDao.getOffers(2);
+		List<Offer> retOffers = offersDao.getOffers(1, 2, "test");
 
 		verify(jdbc, times(1)).query(eq(sql), refEq(paramMap), any(RowMapper.class));
 

@@ -32,11 +32,27 @@ public class OffersDAO {
 	 * 
 	 * @return
 	 */
-	public List<Offer> getOffers(int limit) {
-		MapSqlParameterSource paramMap = new MapSqlParameterSource("limit", limit);
-		String sql = "select * from offers limit :limit";
+	public List<Offer> getOffers(int offset, int limit, String searchString) {
+		MapSqlParameterSource paramMap = new MapSqlParameterSource();
+		paramMap.addValue("offset", offset);
+		paramMap.addValue("limit", limit);
+		paramMap.addValue("searchString", "%" + searchString + "%");
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from offers");
+		if (!searchString.isEmpty()) {
+			sql.append(" ");
+			sql.append("where name like :searchString or email like :searchString or offerdetails like :searchString");
+		}
+		if (limit > 0) {
+			sql.append(" ");
+			sql.append("limit :limit");
+		}
+		if (offset > 0) {
+			sql.append(" ");
+			sql.append("offset :offset");
+		}
 
-		return jdbc.query(sql, paramMap, new RowMapper<Offer>() {
+		return jdbc.query(sql.toString(), paramMap, new RowMapper<Offer>() {
 
 			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return new Offer(rs.getInt("id"), rs.getString("name"), rs.getString("email"),
