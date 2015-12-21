@@ -9,10 +9,18 @@
 	app.controller('OfferListController', function($http) {
 		this.offers = [];
 		var that = this;
+		
 		$http.defaults.headers.common.access_token = Utils.getAccessToken();
 		$http.get(buildUrl('/offers')).success(function(data) {
 			that.offers = data;
 		});
+		
+		this.searchOffers = function(searchString) {
+			$http.defaults.headers.common.access_token = Utils.getAccessToken();
+			$http.get(buildUrl('/offers?search=' + searchString)).success(function(data) {
+				that.offers = data;
+			})
+		};
 	});
 
 	app.controller('OfferEditController', function($routeParams, $location,
