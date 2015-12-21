@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Offers</title>
+</head>
+<body>
+	<div class="panel panel-default">
+		<div class="panel-heading">Offers - using REST API and Angular
+			JS</div>
+		<div ng-controller="OfferListController as listCtrl" class="panel-body">
+			<a class="btn btn-primary" href="#new">Create New</a>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Offer</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="offer in listCtrl.offers">
+						<td>{{offer.id}}</td>
+						<td>{{offer.name}}</td>
+						<td>{{offer.email}}</td>
+						<td>{{offer.offerDetails}}</td>
+						<td><a ng-hide="offer.noEdit" class="btn btn-info btn-sm" href="#edit/{{offer.id}}">Edit</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

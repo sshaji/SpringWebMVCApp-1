@@ -29,7 +29,7 @@
 
 		edit_offer_template : '\
 			<form class="edit-user-form">\
-				<legend><@= rc.offer ? "Edit" : "New" @> User</legend>\
+				<legend><@= rc.offer ? "Edit" : "New" @> Offer</legend>\
 				<label>Name</label>\
 				<input name="name" type="text" value="<@= rc.offer ? rc.offer.get("name") : "" @>" class="form-control">\
 				<label>Email</label>\
