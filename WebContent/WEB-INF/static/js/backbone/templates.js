@@ -2,7 +2,23 @@
 	templates = {
 
 		offer_list_template : '\
-			<a class="btn btn-primary" href="#/new">Create New</a>\
+			<table width="100%">\
+				<tr>\
+					<td width="50%">\
+						<a class="btn btn-primary" href="#/new">Create New</a>\
+					</td>\
+					<td width="50%">\
+						<div>\
+							<div class="input-group">\
+  								<input type="text" class="form-control search-fld" placeholder="Search for...">\
+  								<span class="input-group-btn">\
+  									<button class="btn btn-default search-btn" type="button">Go!</button>\
+  								</span>\
+  							</div>\
+  						</div>\
+  					</td>\
+  				</tr>\
+			</table>\
 			<table class="table table-striped">\
 				<thead>\
 					<tr>\
