@@ -6,18 +6,18 @@
 * Simple Jsp UI
  
 ### GUI URLs :
-* Angular : http://server/applicationname/ OR http:<server>/<applicationname>/angular
+* Angular : http://server/applicationname/ OR http://server/applicationname/angular
 * Backbone : http://server/applicationname/backbone
 * JSP : http://server/applicationname/server 
 
 ### MySql Database details :
 * Database name : test
-- Table name : offers
--- Columns
---- id (int - primary - auto increment)
---- name (varchar - 100)
---- email (varchar - 100)
---- offerdetails (text)
+* Table name : offers
+* Columns :
+* * id (int - primary - auto increment)
+* * name (varchar - 100)
+* * email (varchar - 100)
+* * offerdetails (text)
 
 ### Database Connection
 * Default : JNDI
