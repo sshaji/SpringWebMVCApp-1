@@ -8,18 +8,20 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Offers - using REST API and Angular
 			JS</div>
-		<div ng-controller="OfferListController as listCtrl" class="panel-body">
+		<div ng-controller="OfferListController as listCtrl"
+			class="panel-body">
 			<table width="100%">
 				<tr>
-					<td width="50%">
-						<a class="btn btn-primary" href="#new">Create New</a>
-					</td>
+					<td width="50%"><a class="btn btn-primary" href="#new">Create
+							New</a></td>
 					<td width="50%">
 						<div>
-    						<div class="input-group">
-      							<input ng-model="searchString" type="text" class="form-control" placeholder="Search for...">
-								<span class="input-group-btn">
-									<button ng-click="listCtrl.searchOffers(searchString)" class="btn btn-default" type="button">Go!</button>
+							<div class="input-group">
+								<input ng-model="searchString" type="text" class="form-control"
+									placeholder="Search for..."> <span
+									class="input-group-btn">
+									<button ng-click="listCtrl.searchOffers(searchString)"
+										class="btn btn-default" type="button">Go!</button>
 								</span>
 							</div>
 						</div>
@@ -42,7 +44,8 @@
 						<td>{{offer.name}}</td>
 						<td>{{offer.email}}</td>
 						<td>{{offer.offerDetails}}</td>
-						<td><a ng-hide="offer.noEdit" class="btn btn-info btn-sm" href="#edit/{{offer.id}}">Edit</a></td>
+						<td><a ng-hide="offer.noEdit" class="btn btn-info btn-sm"
+							href="#edit/{{offer.id}}">Edit</a></td>
 					</tr>
 				</tbody>
 			</table>

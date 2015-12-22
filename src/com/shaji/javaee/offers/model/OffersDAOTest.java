@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -99,8 +98,7 @@ public class OffersDAOTest extends TestCase {
 	public void testGetOfferById() {
 		Offer offer = new Offer(100, "John", "john@test.com", "I can fix kitchen");
 
-		when(jdbc.queryForObject(any(String.class), any(SqlParameterSource.class), any(RowMapper.class)))
-				.thenReturn(offer);
+		when(jdbc.queryForObject(any(String.class), any(SqlParameterSource.class), any(RowMapper.class))).thenReturn(offer);
 
 		Offer retOffer = offersDao.getOfferById(100);
 
@@ -114,8 +112,7 @@ public class OffersDAOTest extends TestCase {
 	public void testCreateOffer() {
 		Offer offer = new Offer("John", "john@test.com", "I can fix kitchen");
 
-		when(jdbc.update(any(String.class), any(SqlParameterSource.class), any(GeneratedKeyHolder.class)))
-				.thenReturn(1);
+		when(jdbc.update(any(String.class), any(SqlParameterSource.class), any(GeneratedKeyHolder.class))).thenReturn(1);
 		when(generatedKeyHolder.getKey()).thenReturn(100);
 
 		int retId = offersDao.createOffer(offer);
@@ -127,8 +124,7 @@ public class OffersDAOTest extends TestCase {
 	public void testCreateOfferFail() {
 		Offer offer = new Offer("John", "john@test.com", "I can fix kitchen");
 
-		when(jdbc.update(any(String.class), any(SqlParameterSource.class), any(GeneratedKeyHolder.class)))
-				.thenReturn(0);
+		when(jdbc.update(any(String.class), any(SqlParameterSource.class), any(GeneratedKeyHolder.class))).thenReturn(0);
 		when(generatedKeyHolder.getKey()).thenReturn(100);
 
 		int retId = offersDao.createOffer(offer);

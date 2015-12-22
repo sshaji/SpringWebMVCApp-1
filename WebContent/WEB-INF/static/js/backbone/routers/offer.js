@@ -1,4 +1,6 @@
 (function(app) {
+	"use strict";
+
 	app.Routers.Offer = Backbone.Router.extend({
 		routes : {
 			'' : 'home',

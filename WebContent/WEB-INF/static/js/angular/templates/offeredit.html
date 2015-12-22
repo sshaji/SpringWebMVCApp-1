@@ -9,18 +9,24 @@
 		<div class="panel-heading">Offers - using REST API and Angular
 			JS</div>
 		<div class="panel-body">
-			<form ng-controller="OfferEditController as editCtrl" ng-submit = "editCtrl.submitOffer()" class="edit-user-form">
+			<form ng-controller="OfferEditController as editCtrl"
+				ng-submit="editCtrl.submitOffer()" class="edit-user-form">
 				<legend>Offer</legend>
-				<label>Name</label>
-				<input name="name" ng-model="editCtrl.offer.name" type="text" value="{{editCtrl.offer.name}}" class="form-control">
-				<label>Email</label>
-				<input name="email" ng-model="editCtrl.offer.email" type="text" value="{{editCtrl.offer.email}}" class="form-control">
-				<label>Offer</label>
-				<input name="offerDetails" ng-model="editCtrl.offer.offerDetails" type="text" value="{{editCtrl.offer.offerDetails}}" class="form-control">
+				<label>Name</label> <input name="name"
+					ng-model="editCtrl.offer.name" type="text"
+					value="{{editCtrl.offer.name}}" class="form-control"> <label>Email</label>
+				<input name="email" ng-model="editCtrl.offer.email" type="text"
+					value="{{editCtrl.offer.email}}" class="form-control"> <label>Offer</label>
+				<input name="offerDetails" ng-model="editCtrl.offer.offerDetails"
+					type="text" value="{{editCtrl.offer.offerDetails}}"
+					class="form-control">
 				<hr />
 				<button type="submit" class="btn btn-success">Submit</button>
-				<input type="hidden" name="id" ng-model="offerEdit.offer.id" value="{{editCtrl.offer.name}}">
-				<button type="button" "editCtrl.offer.id" ng-click="editCtrl.deleteOffer()" class="btn btn-danger delete">Delete</button>
+				<input type="hidden" name="id" ng-model="offerEdit.offer.id"
+					value="{{editCtrl.offer.name}}">
+				<button type="button" ng-show="editCtrl.offer.id"
+					"editCtrl.offer.id" ng-click="editCtrl.deleteOffer()"
+					class="btn btn-danger delete">Delete</button>
 			</form>
 		</div>
 	</div>

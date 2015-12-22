@@ -1,4 +1,6 @@
 (function(app) {
+	"use strict";
+
 	app.Views.OfferListView = Backbone.View.extend({
 		el : '.panel-body',
 		render : function() {
@@ -7,7 +9,7 @@
 			offers.fetch({
 				beforeSend : app.setAccessToken,
 				success : function(offers) {
-					var template = _.template(templates.offer_list_template);
+					var template = _.template(Templates.offer_list_template);
 					var templateData = {
 						offers : offers.models
 					};
@@ -27,7 +29,7 @@
 				},
 				beforeSend : app.setAccessToken,
 				success : function(offers) {
-					var template = _.template(templates.offer_list_template);
+					var template = _.template(Templates.offer_list_template);
 					var templateData = {
 						offers : offers.models
 					};

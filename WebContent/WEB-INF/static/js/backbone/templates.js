@@ -1,5 +1,7 @@
 (function() {
-	templates = {
+	"use strict";
+
+	window.Templates = {
 
 		offer_list_template : '\
 			<table width="100%">\

@@ -56,8 +56,7 @@ public class OffersDAO {
 		return jdbc.query(sql.toString(), paramMap, new RowMapper<Offer>() {
 
 			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new Offer(rs.getInt("id"), rs.getString("name"), rs.getString("email"),
-						rs.getString("offerdetails"));
+				return new Offer(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("offerdetails"));
 			}
 
 		});
@@ -76,8 +75,7 @@ public class OffersDAO {
 		return jdbc.queryForObject(sql, paramMap, new RowMapper<Offer>() {
 
 			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new Offer(rs.getInt("id"), rs.getString("name"), rs.getString("email"),
-						rs.getString("offerdetails"));
+				return new Offer(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("offerdetails"));
 			}
 
 		});

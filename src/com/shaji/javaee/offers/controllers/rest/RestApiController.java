@@ -41,8 +41,7 @@ public class RestApiController {
 			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
 			@RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
 			@RequestParam(name = "limit", required = false, defaultValue = "25") int limit,
-			@RequestParam(name = "search", required = false, defaultValue = "") String searchString)
-					throws DatabaseErrorException, InvalidLoginException {
+			@RequestParam(name = "search", required = false, defaultValue = "") String searchString) throws DatabaseErrorException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
@@ -131,8 +130,8 @@ public class RestApiController {
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<Offer> update(
 			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@PathVariable("id") int id, @RequestBody Offer offer)
-					throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
+			@PathVariable("id") int id,
+			@RequestBody Offer offer) throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}

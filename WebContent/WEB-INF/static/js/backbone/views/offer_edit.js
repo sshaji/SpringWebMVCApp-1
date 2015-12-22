@@ -1,4 +1,6 @@
 (function(app) {
+	"use strict";
+
 	app.Views.OfferEditView = Backbone.View.extend({
 		el : '.panel-body',
 		render : function(options) {
@@ -11,8 +13,7 @@
 				this.offer.fetch({
 					beforeSend : app.setAccessToken,
 					success : function(offer) {
-						var template = _
-								.template(templates.edit_offer_template);
+						var template = _.template(Templates.edit_offer_template);
 						var templateData = {
 							offer : offer
 						};
@@ -20,7 +21,7 @@
 					}
 				});
 			} else {
-				var template = _.template(templates.edit_offer_template);
+				var template = _.template(Templates.edit_offer_template);
 				var templateData = {
 					offer : null
 				};
@@ -44,15 +45,13 @@
 			offer.save(null, {
 				beforeSend : app.setAccessToken,
 				success : function(offer) {
-					Utils.showStatus("Offer saved! Id: " + offer.get('id'),
-							true);
+					Utils.showStatus("Offer saved! Id: " + offer.get('id'), true);
 					that.router.navigate('', {
 						trigger : true
 					})
 				},
 				error : function(offer, response) {
-					Utils.showStatus("Error! saving offer : "
-							+ response.statusText, false);
+					Utils.showStatus("Error! saving offer : " + response.statusText, false);
 				}
 			});
 		},
@@ -71,8 +70,7 @@
 					})
 				},
 				error : function(response) {
-					Utils.showStatus("Error! deleting offer : "
-							+ response.statusText, false);
+					Utils.showStatus("Error! deleting offer : " + response.statusText, false);
 				}
 			});
 		}
