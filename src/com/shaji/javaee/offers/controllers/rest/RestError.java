@@ -1,4 +1,4 @@
-package com.shaji.javaee.offers.controllers.exceptions;
+package com.shaji.javaee.offers.controllers.rest;
 
 public class RestError {
 	private String error;

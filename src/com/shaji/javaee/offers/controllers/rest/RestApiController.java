@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shaji.javaee.offers.controllers.exceptions.DatabaseErrorException;
 import com.shaji.javaee.offers.controllers.exceptions.InvalidLoginException;
 import com.shaji.javaee.offers.controllers.exceptions.RecordNotFoundException;
-import com.shaji.javaee.offers.controllers.exceptions.RestError;
 import com.shaji.javaee.offers.model.Offer;
 import com.shaji.javaee.offers.model.OffersDAO;
 
