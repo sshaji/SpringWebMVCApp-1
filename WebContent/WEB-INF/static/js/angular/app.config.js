@@ -1,16 +1,16 @@
 (function() {
 	"use strict";
 
-	app.config(function($routeProvider, $httpProvider) {
+	app.config(function($routeProvider) {
 		$routeProvider.when('/', {
 			templateUrl : 'static/js/angular/templates/offerlist.html',
-			controller : 'OfferListController'
+			controller : 'offerListController'
 		}).when('/new', {
 			templateUrl : 'static/js/angular/templates/offeredit.html',
-			controller : 'OfferEditController'
+			controller : 'offerEditController'
 		}).when('/edit/:id', {
 			templateUrl : 'static/js/angular/templates/offeredit.html',
-			controller : 'OfferEditController'
+			controller : 'offerEditController'
 		});
 	});
 

@@ -1,16 +1,16 @@
 (function() {
 	"use strict";
 
-	app.controller('OfferListController', function(OfferFactory) {
+	app.controller('offerListController', function(offerFactory) {
 		var that = this;
-		var promise = OfferFactory.getOffers();
+		var promise = offerFactory.getOffers();
 		promise.then(function(response) {
 			that.offers = response.data;
 		}, function(response) {
 			Utils.showStatus("Error retrieving offers : " + response.statusText, false);
 		});
 		this.searchOffers = function(searchString) {
-			var promise = OfferFactory.getOffers(searchString);
+			var promise = offerFactory.getOffers(searchString);
 			promise.then(function(response) {
 				that.offers = response.data;
 			}, function(response) {
@@ -19,11 +19,11 @@
 		};
 	});
 
-	app.controller('OfferEditController', function(OfferFactory, $routeParams, $location) {
+	app.controller('offerEditController', function(offerFactory, $routeParams, $location) {
 		var id = $routeParams.id;
 		if (id) {
 			var that = this;
-			var promise = OfferFactory.getOffer(id);
+			var promise = offerFactory.getOffer(id);
 			promise.then(function(response) {
 				that.offer = response.data;
 			}, function(response) {
@@ -32,7 +32,7 @@
 		}
 
 		this.submitOffer = function() {
-			var promise = OfferFactory.saveOffer(this.offer);
+			var promise = offerFactory.saveOffer(this.offer);
 			promise.then(function(response) {
 				Utils.showStatus("Offer updated! : " + response.data.id, true);
 				$location.path('/');
@@ -42,7 +42,7 @@
 		};
 
 		this.deleteOffer = function() {
-			var promise = OfferFactory.deleteOffer(id);
+			var promise = offerFactory.deleteOffer(id);
 			promise.then(function(response) {
 				Utils.showStatus("Offer deleted!", true);
 				$location.path('/');

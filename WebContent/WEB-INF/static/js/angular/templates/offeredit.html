@@ -4,7 +4,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Offers - using REST API and Angular JS</div>
 		<div class="panel-body">
-			<form name="offerForm" ng-controller="OfferEditController as editCtrl" 
+			<form name="offerForm" ng-controller="offerEditController as editCtrl" 
 				ng-submit="editCtrl.submitOffer()" 
 				class="edit-user-form">
 				<legend>Offer</legend>
@@ -22,8 +22,8 @@
 				<label>Offer</label>
 				<span class="label label-danger" ng-show="offerForm.offerDetails.$error.maxlength">Too long!</span>
 				<textarea name="offerDetails" ng-model="editCtrl.offer.offerDetails"  
-					value="{{editCtrl.offer.offerDetails}}" class="form-control"
-					ng-required="true" ng-maxlength="250" ng-trim="true"></textarea>
+					class="form-control"
+					ng-required="true" ng-maxlength="250" ng-trim="true">{{editCtrl.offer.offerDetails}}</textarea>
 				<hr />
 				<button type="submit" ng-show="offerForm.$valid" class="btn btn-success">Submit</button>
 				<button type="button" ng-hide="offerForm.$valid" class="btn btn-disabled">Submit</button>

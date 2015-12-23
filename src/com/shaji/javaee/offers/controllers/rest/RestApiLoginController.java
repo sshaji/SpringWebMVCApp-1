@@ -1,5 +1,9 @@
 package com.shaji.javaee.offers.controllers.rest;
 
+import java.util.Random;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +21,10 @@ public class RestApiLoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<RestLoginResponse> login() {
-		return new ResponseEntity<RestLoginResponse>(new RestLoginResponse("5689"), HttpStatus.OK);
+	public @ResponseBody ResponseEntity<RestLoginResponse> login(HttpSession session) {
+		Integer randomNum = new Random().nextInt(50) + 1;
+		session.setAttribute("token", randomNum.toString());
+		return new ResponseEntity<RestLoginResponse>(new RestLoginResponse(randomNum.toString()), HttpStatus.OK);
 	}
 
 }

@@ -7,29 +7,29 @@
 
 	var access_token = null;
 
-	app.factory('OfferFactory', function(HttpRequest, AuthenticationFactory, $q, $http) {
+	app.factory('offerFactory', function(httpRequest) {
 		return {
 			getOffers : function(searchString) {
-				return HttpRequest.send({
+				return httpRequest.send({
 					method : 'GET',
 					url : buildUrl('/offers' + (angular.isDefined(searchString) ? '?search=' + searchString : ''))
 				});
 			},
 			getOffer : function(id) {
-				return HttpRequest.send({
+				return httpRequest.send({
 					method : 'GET',
 					url : buildUrl('/offers/' + id)
 				});
 			},
 			saveOffer : function(offer) {
 				if (angular.isDefined(offer.id)) {
-					return HttpRequest.send({
+					return httpRequest.send({
 						method : 'PUT',
 						url : buildUrl('/offers/' + offer.id),
 						data : offer
 					});
 				} else {
-					return HttpRequest.send({
+					return httpRequest.send({
 						method : 'POST',
 						url : buildUrl('/offers'),
 						data : offer
@@ -37,7 +37,7 @@
 				}
 			},
 			deleteOffer : function(id) {
-				return HttpRequest.send({
+				return httpRequest.send({
 					method : 'DELETE',
 					url : buildUrl('/offers/' + id)
 				});
@@ -45,9 +45,9 @@
 		}
 	});
 
-	app.factory('HttpRequest', function(AuthenticationFactory, $q, $http) {
+	app.factory('httpRequest', function(authenticationFactory, $q, $http) {
 		var retryWithNewToken = function(config, deferred) {
-			access_token = AuthenticationFactory.refreshToken();
+			access_token = authenticationFactory.refreshToken();
 			access_token.then(function(token) {
 				config.headers.access_token = token;
 				$http(config).then(function successCallback(response) {
@@ -61,7 +61,7 @@
 			send : function(options) {
 				var deferred = $q.defer();
 				if (!access_token) {
-					access_token = AuthenticationFactory.getToken();
+					access_token = authenticationFactory.getToken();
 				}
 				access_token.then(function(token) {
 					$http.defaults.headers.common.access_token = token;
@@ -84,7 +84,7 @@
 		};
 	});
 
-	app.factory('AuthenticationFactory', function($q, $http) {
+	app.factory('authenticationFactory', function($q, $http) {
 		var saveToken = function(access_token) {
 			window.localStorage.clear();
 			window.localStorage.setItem('access_token', access_token);
