@@ -18,7 +18,7 @@ public class RestApiLoginController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<RestLoginResponse> login() {
-		return new ResponseEntity<RestLoginResponse>(new RestLoginResponse("123456789"), HttpStatus.OK);
+		return new ResponseEntity<RestLoginResponse>(new RestLoginResponse("5689"), HttpStatus.OK);
 	}
 
 }

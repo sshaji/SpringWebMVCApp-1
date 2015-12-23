@@ -16,6 +16,12 @@
 <script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
 <script
 	src="${pageContext.request.contextPath}/static/js/angular/app.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/angular/app.config.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/angular/app.controllers.js"></script>
+<script
+	src="${pageContext.request.contextPath}/static/js/angular/app.factories.js"></script>
 </head>
 <body>
 	<div ng-view></div>

@@ -238,10 +238,10 @@ public class RestApiController {
 	}
 
 	private boolean isValidLogin(String accessToken) {
-		if (accessToken.isEmpty()) {
-			return false;
-		} else {
+		if ("5689".equals(accessToken)) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
