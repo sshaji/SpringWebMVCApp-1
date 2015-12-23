@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Offer</title>
-</head>
 <body>
 	<div class="panel panel-default">
-		<div class="panel-heading">Offers - using REST API and Angular
-			JS</div>
+		<div class="panel-heading">Offers - using REST API and Angular JS</div>
 		<div class="panel-body">
-			<form ng-controller="OfferEditController as editCtrl"
-				ng-submit="editCtrl.submitOffer()" class="edit-user-form">
+			<form name="offerForm" ng-controller="OfferEditController as editCtrl" 
+				ng-submit="editCtrl.submitOffer()" 
+				class="edit-user-form">
 				<legend>Offer</legend>
-				<label>Name</label> <input name="name"
-					ng-model="editCtrl.offer.name" type="text"
-					value="{{editCtrl.offer.name}}" class="form-control"> <label>Email</label>
-				<input name="email" ng-model="editCtrl.offer.email" type="text"
-					value="{{editCtrl.offer.email}}" class="form-control"> <label>Offer</label>
-				<input name="offerDetails" ng-model="editCtrl.offer.offerDetails"
-					type="text" value="{{editCtrl.offer.offerDetails}}"
-					class="form-control">
+				<label>Name</label>
+				<span class="label label-danger" ng-show="offerForm.name.$error.maxlength">Too long!</span>
+				<input name="name" ng-model="editCtrl.offer.name" type="text" 
+					value="{{editCtrl.offer.name}}" class="form-control"
+					ng-required="true" ng-maxlength="60" ng-trim="true"> 
+				<label>Email</label>
+				<span class="label label-danger" ng-show="offerForm.email.$error.maxlength">Too long!</span>
+				<span class="label label-danger" ng-show="offerForm.email.$error.email">Invalid email!</span>
+				<input name="email" ng-model="editCtrl.offer.email" type="email" 
+					value="{{editCtrl.offer.email}}" class="form-control"
+					ng-required="true" ng-maxlength="60" ng-trim="true">
+				<label>Offer</label>
+				<span class="label label-danger" ng-show="offerForm.offerDetails.$error.maxlength">Too long!</span>
+				<textarea name="offerDetails" ng-model="editCtrl.offer.offerDetails"  
+					value="{{editCtrl.offer.offerDetails}}" class="form-control"
+					ng-required="true" ng-maxlength="250" ng-trim="true"></textarea>
 				<hr />
-				<button type="submit" class="btn btn-success">Submit</button>
-				<input type="hidden" name="id" ng-model="offerEdit.offer.id"
-					value="{{editCtrl.offer.name}}">
-				<button type="button" ng-show="editCtrl.offer.id"
-					"editCtrl.offer.id" ng-click="editCtrl.deleteOffer()"
+				<button type="submit" ng-show="offerForm.$valid" class="btn btn-success">Submit</button>
+				<button type="button" ng-hide="offerForm.$valid" class="btn btn-disabled">Submit</button>
+				<input type="hidden" name="id" ng-model="offerEdit.offer.id" 
+					value="{{editCtrl.offer.id}}">
+				<button type="button" ng-show="editCtrl.offer.id" ng-click="editCtrl.deleteOffer()" 
 					class="btn btn-danger delete">Delete</button>
+				<a href="#/" class="btn btn-warning">Cancel</a>
 			</form>
 		</div>
 	</div>

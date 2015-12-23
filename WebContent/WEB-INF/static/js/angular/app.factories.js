@@ -12,7 +12,7 @@
 			getOffers : function(searchString) {
 				return HttpRequest.send({
 					method : 'GET',
-					url : buildUrl('/offers' + (typeof (searchString) == 'undefined' ? '' : '?search=' + searchString))
+					url : buildUrl('/offers' + (angular.isDefined(searchString) ? '?search=' + searchString : ''))
 				});
 			},
 			getOffer : function(id) {
@@ -22,7 +22,7 @@
 				});
 			},
 			saveOffer : function(offer) {
-				if (typeof (offer.id) != 'undefined') {
+				if (angular.isDefined(offer.id)) {
 					return HttpRequest.send({
 						method : 'PUT',
 						url : buildUrl('/offers/' + offer.id),

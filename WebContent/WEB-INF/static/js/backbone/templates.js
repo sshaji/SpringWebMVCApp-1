@@ -4,12 +4,12 @@
 	window.Templates = {
 
 		offer_list_template : '\
-			<table width="100%">\
+			<table style="width:100%">\
 				<tr>\
-					<td width="50%">\
+					<td style="width:50%">\
 						<a class="btn btn-primary" href="#/new">Create New</a>\
 					</td>\
-					<td width="50%">\
+					<td style="width:50%">\
 						<div>\
 							<div class="input-group">\
   								<input type="text" class="form-control search-fld" placeholder="Search for...">\
