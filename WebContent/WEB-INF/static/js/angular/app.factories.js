@@ -64,10 +64,12 @@
 					access_token = authenticationFactory.getToken();
 				}
 				access_token.then(function(token) {
-					$http.defaults.headers.common.access_token = token;
 					$http({
 						method : options.method,
 						url : options.url,
+						headers : {
+							'access_token' : token
+						},
 						data : options.data || {}
 					}).then(function successCallback(response) {
 						deferred.resolve(response);
