@@ -31,9 +31,9 @@
 				<tbody>
 					<tr ng-repeat="offer in listCtrl.offers">
 						<td>{{offer.id}}</td>
-						<td>{{offer.name | trim:25}}</td>
-						<td>{{offer.email | trim:25}}</td>
-						<td>{{offer.offerDetails | trim:40}}</td>
+						<td>{{offer.name | strLimit:25}}</td>
+						<td>{{offer.email | strLimit:25}}</td>
+						<td>{{offer.offerDetails | strLimit:40}}</td>
 						<td><a ng-hide="offer.noEdit" class="btn btn-info btn-sm" href="#edit/{{offer.id}}">Edit</a></td>
 					</tr>
 				</tbody>

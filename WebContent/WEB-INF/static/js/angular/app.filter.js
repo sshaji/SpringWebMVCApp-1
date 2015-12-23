@@ -1,20 +1,15 @@
 (function() {
 	"use strict";
 
-	app.filter('trim', function() {
-		return function(value, max) {
-			if (!value) {
-				return '';
+	app.filter('strLimit', function($filter) {
+		return function(input, limit) {
+			if (!input) {
+				return;
 			}
-			max = parseInt(max, 10);
-			if (!max) {
-				return value;
+			if (input.length <= limit) {
+				return input;
 			}
-			if (value.length <= max) {
-				return value;
-			}
-			value = value.substr(0, max);
-			return value + ('…');
+			return $filter('limitTo')(input, limit) + '...';
 		};
 	});
 
