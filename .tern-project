@@ -1,16 +1,17 @@
 {
   "ecmaVersion": 5,
-  "libs": [
-    "browser",
-    "underscore",
-    "jquery"
-  ],
   "plugins": {
     "angular": {
       
     },
     "bootstrap": {
       
+    },
+    "jasmine": {
+      
     }
-  }
+  },
+  "libs": [
+    "underscore"
+  ]
 }

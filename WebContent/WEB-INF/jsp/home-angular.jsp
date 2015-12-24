@@ -13,17 +13,10 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/angular/app.js"></script>
+	src="${pageContext.request.contextPath}/static/angular/src/utils.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/angular/app.config.js"></script>
-<script
-	src="${pageContext.request.contextPath}/static/js/angular/app.controllers.js"></script>
-<script
-	src="${pageContext.request.contextPath}/static/js/angular/app.factories.js"></script>
-<script
-	src="${pageContext.request.contextPath}/static/js/angular/app.filter.js"></script>
+	src="${pageContext.request.contextPath}/static/angular/src/app.js"></script>
 </head>
 <body>
 	<div ng-view ng-app="offersApp"></div>

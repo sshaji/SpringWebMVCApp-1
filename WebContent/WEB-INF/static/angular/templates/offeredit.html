@@ -10,26 +10,22 @@
 				<legend>Offer</legend>
 				<label>Name</label>
 				<span class="label label-danger" ng-show="offerForm.name.$error.maxlength">Too long!</span>
-				<input name="name" ng-model="editCtrl.offer.name" type="text" 
-					value="{{editCtrl.offer.name}}" class="form-control"
-					ng-required="true" ng-maxlength="60" ng-trim="true"> 
+				<input name="name" ng-model="offer.name" type="text" 
+					class="form-control" ng-required="true" ng-maxlength="60" ng-trim="true"> 
 				<label>Email</label>
 				<span class="label label-danger" ng-show="offerForm.email.$error.maxlength">Too long!</span>
 				<span class="label label-danger" ng-show="offerForm.email.$error.email">Invalid email!</span>
-				<input name="email" ng-model="editCtrl.offer.email" type="email" 
-					value="{{editCtrl.offer.email}}" class="form-control"
-					ng-required="true" ng-maxlength="60" ng-trim="true">
+				<input name="email" ng-model="offer.email" type="email" 
+					class="form-control" ng-required="true" ng-maxlength="60" ng-trim="true">
 				<label>Offer</label>
 				<span class="label label-danger" ng-show="offerForm.offerDetails.$error.maxlength">Too long!</span>
-				<textarea name="offerDetails" ng-model="editCtrl.offer.offerDetails"  
-					class="form-control"
-					ng-required="true" ng-maxlength="250" ng-trim="true">{{editCtrl.offer.offerDetails}}</textarea>
+				<textarea name="offerDetails" ng-model="offer.offerDetails"  
+					class="form-control" ng-required="true" ng-maxlength="250" ng-trim="true"></textarea>
 				<hr />
 				<button type="submit" ng-show="offerForm.$valid" class="btn btn-success">Submit</button>
 				<button type="button" ng-hide="offerForm.$valid" class="btn btn-disabled">Submit</button>
-				<input type="hidden" name="id" ng-model="offerEdit.offer.id" 
-					value="{{editCtrl.offer.id}}">
-				<button type="button" ng-show="editCtrl.offer.id" ng-click="editCtrl.deleteOffer()" 
+				<input type="hidden" name="id" ng-model="offer.id">
+				<button type="button" ng-show="offer.id" ng-click="editCtrl.deleteOffer()" 
 					class="btn btn-danger delete">Delete</button>
 				<a href="#/" class="btn btn-warning">Cancel</a>
 			</form>

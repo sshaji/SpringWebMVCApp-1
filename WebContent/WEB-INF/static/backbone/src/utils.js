@@ -4,7 +4,7 @@
 	window.Utils = {
 
 		getAccessToken : function() {
-			return '5689';
+			return '123456789';
 		},
 
 		showStatus : function(message, isSuccess) {

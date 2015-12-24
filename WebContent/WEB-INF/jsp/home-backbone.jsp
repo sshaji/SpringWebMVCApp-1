@@ -13,21 +13,21 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
-<script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
+<script src="${pageContext.request.contextPath}/static/backbone/src/utils.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/backbone/app.js"></script>
+	src="${pageContext.request.contextPath}/static/backbone/src/app.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/backbone/collections/offer.js"></script>
+	src="${pageContext.request.contextPath}/static/backbone/src/collections/offer.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/backbone/views/offer_list.js"></script>
+	src="${pageContext.request.contextPath}/static/backbone/src/views/offer_list.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/backbone/views/offer_edit.js"></script>
+	src="${pageContext.request.contextPath}/static/backbone/src/views/offer_edit.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/backbone/models/offer.js"></script>
+	src="${pageContext.request.contextPath}/static/backbone/src/models/offer.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/backbone/routers/offer.js"></script>
+	src="${pageContext.request.contextPath}/static/backbone/src/routers/offer.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/js/backbone/templates.js"></script>
+	src="${pageContext.request.contextPath}/static/backbone/src/templates.js"></script>
 </head>
 <body>
 	<!-- BEGIN: Backbone code. -->

@@ -1,37 +1,79 @@
 (function() {
 	"use strict";
 
-	var buildUrl = function(url) {
-		return 'rest/v1' + url;
-	}
+	angular.module('offersApp', [ 'ngRoute' ])
 
-	var access_token = null;
+	.controller('offerListController', function(offerFactory, $scope) {
+		this.searchOffers = function(searchString) {
+			offerFactory.getOffers(searchString).then(function(response) {
+				$scope.offers = response.data;
+			}, function(response) {
+				Utils.showStatus("Error retrieving offers : " + response.statusText, false);
+				$scope.offers = [];
+			});
+		};
+		this.searchOffers();
+	})
 
-	app.factory('offerFactory', function(httpRequest) {
+	.controller('offerEditController', function(offerFactory, $scope, $routeParams, $location) {
+		this.getOffer = function(id) {
+			var promise = offerFactory.getOffer(id);
+			promise.then(function(response) {
+				$scope.offer = response.data;
+			}, function(response) {
+				Utils.showStatus("Error retrieving offer : " + response.statusText, false);
+				$scope.offer = {};
+			});
+		};
+		this.submitOffer = function() {
+			var promise = offerFactory.saveOffer($scope.offer);
+			promise.then(function(response) {
+				Utils.showStatus("Offer updated! : " + response.data.id, true);
+				$location.path('/');
+			}, function(response) {
+				Utils.showStatus("Error! updating offer : " + response.statusText, false);
+			});
+		};
+		this.deleteOffer = function() {
+			var promise = offerFactory.deleteOffer(id);
+			promise.then(function(response) {
+				Utils.showStatus("Offer deleted!", true);
+				$location.path('/');
+			}, function(response) {
+				Utils.showStatus("Error! deleting offer : " + response.statusText, false);
+			});
+		};
+		var id = $routeParams.id;
+		if (id) {
+			this.getOffer(id);
+		}
+	})
+
+	.factory('offerFactory', function(httpRequest) {
 		return {
 			getOffers : function(searchString) {
 				return httpRequest.send({
 					method : 'GET',
-					url : buildUrl('/offers' + (angular.isDefined(searchString) ? '?search=' + searchString : ''))
+					url : '/offers' + (angular.isDefined(searchString) ? '?search=' + searchString : '')
 				});
 			},
 			getOffer : function(id) {
 				return httpRequest.send({
 					method : 'GET',
-					url : buildUrl('/offers/' + id)
+					url : '/offers/' + id
 				});
 			},
 			saveOffer : function(offer) {
 				if (angular.isDefined(offer.id)) {
 					return httpRequest.send({
 						method : 'PUT',
-						url : buildUrl('/offers/' + offer.id),
+						url : '/offers/' + offer.id,
 						data : offer
 					});
 				} else {
 					return httpRequest.send({
 						method : 'POST',
-						url : buildUrl('/offers'),
+						url : '/offers',
 						data : offer
 					});
 				}
@@ -39,13 +81,18 @@
 			deleteOffer : function(id) {
 				return httpRequest.send({
 					method : 'DELETE',
-					url : buildUrl('/offers/' + id)
+					url : '/offers/' + id
 				});
 			}
 		}
-	});
+	})
 
-	app.factory('httpRequest', function(authenticationFactory, $q, $http) {
+	.factory('httpRequest', function(authenticationFactory, $q, $http) {
+		var buildUrl = function(url) {
+			return 'rest/v1' + url;
+		}
+
+		var access_token = null;
 		var retryWithNewToken = function(config, deferred) {
 			access_token = authenticationFactory.refreshToken();
 			access_token.then(function(token) {
@@ -66,7 +113,7 @@
 				access_token.then(function(token) {
 					$http({
 						method : options.method,
-						url : options.url,
+						url : buildUrl(options.url),
 						headers : {
 							'access_token' : token
 						},
@@ -84,15 +131,17 @@
 				return deferred.promise;
 			}
 		};
-	});
+	})
 
-	app.factory('authenticationFactory', function($q, $http) {
+	.factory('authenticationFactory', function($q, $http) {
 		var saveToken = function(access_token) {
 			window.localStorage.clear();
 			window.localStorage.setItem('access_token', access_token);
 			return true;
 		};
-
+		var buildUrl = function(url) {
+			return 'rest/v1' + url;
+		}
 		return {
 			isExpired : function() {
 				return (window.localStorage.getItem('access_token') == '');
@@ -129,6 +178,28 @@
 				return deferred.promise;
 			}
 		}
-	});
+	})
+
+	.filter('strLimit', function($filter) {
+		return function(input, limit) {
+			if (!input) {
+				return;
+			}
+			if (input.length <= limit) {
+				return input;
+			}
+			return $filter('limitTo')(input, limit) + '...';
+		};
+	})
+
+	.config(function($routeProvider) {
+		$routeProvider.when('/', {
+			templateUrl : 'static/angular/templates/offerlist.html'
+		}).when('/new', {
+			templateUrl : 'static/angular/templates/offeredit.html'
+		}).when('/edit/:id', {
+			templateUrl : 'static/angular/templates/offeredit.html'
+		});
+	})
 
 })();
