@@ -3,44 +3,44 @@
 
 	angular.module('offersApp', [ 'ngRoute' ])
 
-	.controller('offerListController', function(offerFactory, $scope) {
+	.controller('offerListController', function(offerFactory, messageHandler, $scope) {
 		this.searchOffers = function(searchString) {
 			offerFactory.getOffers(searchString).then(function(response) {
 				$scope.offers = response.data;
 			}, function(response) {
-				Utils.showStatus("Error retrieving offers : " + response.statusText, false);
+				messageHandler.showStatus("Error retrieving offers : " + response.statusText, false);
 				$scope.offers = [];
 			});
 		};
 		this.searchOffers();
 	})
 
-	.controller('offerEditController', function(offerFactory, $scope, $routeParams, $location) {
+	.controller('offerEditController', function(offerFactory, messageHandler, $scope, $routeParams, $location) {
 		this.getOffer = function(id) {
 			var promise = offerFactory.getOffer(id);
 			promise.then(function(response) {
 				$scope.offer = response.data;
 			}, function(response) {
-				Utils.showStatus("Error retrieving offer : " + response.statusText, false);
+				messageHandler.showStatus("Error retrieving offer : " + response.statusText, false);
 				$scope.offer = {};
 			});
 		};
 		this.submitOffer = function() {
 			var promise = offerFactory.saveOffer($scope.offer);
 			promise.then(function(response) {
-				Utils.showStatus("Offer updated! : " + response.data.id, true);
+				messageHandler.showStatus("Offer updated! : " + response.data.id, true);
 				$location.path('/');
 			}, function(response) {
-				Utils.showStatus("Error! updating offer : " + response.statusText, false);
+				messageHandler.showStatus("Error! updating offer : " + response.statusText, false);
 			});
 		};
 		this.deleteOffer = function() {
 			var promise = offerFactory.deleteOffer(id);
 			promise.then(function(response) {
-				Utils.showStatus("Offer deleted!", true);
+				messageHandler.showStatus("Offer deleted!", true);
 				$location.path('/');
 			}, function(response) {
-				Utils.showStatus("Error! deleting offer : " + response.statusText, false);
+				messageHandler.showStatus("Error! deleting offer : " + response.statusText, false);
 			});
 		};
 		var id = $routeParams.id;
@@ -176,6 +176,19 @@
 					deferred.reject();
 				});
 				return deferred.promise;
+			}
+		}
+	})
+
+	.factory('messageHandler', function($q, $http) {
+		return {
+			showStatus : function(message, isSuccess) {
+				$("<div />", {
+					class : isSuccess ? 'alert alert-success' : 'alert alert-danger',
+					text : message
+				}).hide().appendTo("body").fadeIn('slow').delay(2000).fadeOut('slow', function() {
+					$(this).remove();
+				});
 			}
 		}
 	})
