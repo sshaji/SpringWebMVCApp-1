@@ -4,7 +4,7 @@
 	angular.module('offersApp', [ 'ngRoute' ])
 
 	.controller('offerListController', function(offerFactory, messageHandler, $scope) {
-		this.searchOffers = function(searchString) {
+		$scope.searchOffers = function(searchString) {
 			offerFactory.getOffers(searchString).then(function(response) {
 				$scope.offers = response.data;
 			}, function(response) {
@@ -12,11 +12,11 @@
 				$scope.offers = [];
 			});
 		};
-		this.searchOffers();
+		$scope.searchOffers();
 	})
 
 	.controller('offerEditController', function(offerFactory, messageHandler, $scope, $routeParams, $location) {
-		this.getOffer = function(id) {
+		$scope.getOffer = function(id) {
 			var promise = offerFactory.getOffer(id);
 			promise.then(function(response) {
 				$scope.offer = response.data;
@@ -25,7 +25,7 @@
 				$scope.offer = {};
 			});
 		};
-		this.submitOffer = function() {
+		$scope.submitOffer = function() {
 			var promise = offerFactory.saveOffer($scope.offer);
 			promise.then(function(response) {
 				messageHandler.showStatus("Offer updated! : " + response.data.id, true);
@@ -34,7 +34,7 @@
 				messageHandler.showStatus("Error! updating offer : " + response.statusText, false);
 			});
 		};
-		this.deleteOffer = function() {
+		$scope.deleteOffer = function() {
 			var promise = offerFactory.deleteOffer(id);
 			promise.then(function(response) {
 				messageHandler.showStatus("Offer deleted!", true);
@@ -45,7 +45,7 @@
 		};
 		var id = $routeParams.id;
 		if (id) {
-			this.getOffer(id);
+			$scope.getOffer(id);
 		}
 	})
 

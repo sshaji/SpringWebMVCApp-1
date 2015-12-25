@@ -4,29 +4,28 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Offers - using REST API and Angular JS</div>
 		<div class="panel-body">
-			<form name="offerForm" ng-controller="offerEditController as editCtrl" 
-				ng-submit="editCtrl.submitOffer()" 
-				class="edit-user-form">
+			<form name="offerForm" ng-controller="offerEditController" ng-submit="submitOffer()" class="edit-user-form">
 				<legend>Offer</legend>
+				
 				<label>Name</label>
 				<span class="label label-danger" ng-show="offerForm.name.$error.maxlength">Too long!</span>
-				<input name="name" ng-model="offer.name" type="text" 
-					class="form-control" ng-required="true" ng-maxlength="60" ng-trim="true"> 
+				<input name="name" ng-model="offer.name" type="text" class="form-control" ng-required="true" ng-maxlength="60" ng-trim="true"> 
+				
 				<label>Email</label>
 				<span class="label label-danger" ng-show="offerForm.email.$error.maxlength">Too long!</span>
 				<span class="label label-danger" ng-show="offerForm.email.$error.email">Invalid email!</span>
-				<input name="email" ng-model="offer.email" type="email" 
-					class="form-control" ng-required="true" ng-maxlength="60" ng-trim="true">
+				<input name="email" ng-model="offer.email" type="email" class="form-control" ng-required="true" ng-maxlength="60" ng-trim="true">
+				
 				<label>Offer</label>
 				<span class="label label-danger" ng-show="offerForm.offerDetails.$error.maxlength">Too long!</span>
-				<textarea name="offerDetails" ng-model="offer.offerDetails"  
-					class="form-control" ng-required="true" ng-maxlength="250" ng-trim="true"></textarea>
+				<textarea name="offerDetails" ng-model="offer.offerDetails" class="form-control" ng-required="true" ng-maxlength="250" ng-trim="true"></textarea>
+				
+				<input type="hidden" name="id" ng-model="offer.id">
+				
 				<hr />
 				<button type="submit" ng-show="offerForm.$valid" class="btn btn-success">Submit</button>
 				<button type="button" ng-hide="offerForm.$valid" class="btn btn-disabled">Submit</button>
-				<input type="hidden" name="id" ng-model="offer.id">
-				<button type="button" ng-show="offer.id" ng-click="editCtrl.deleteOffer()" 
-					class="btn btn-danger delete">Delete</button>
+				<button type="button" ng-show="offer.id" ng-click="deleteOffer()" class="btn btn-danger delete">Delete</button>
 				<a href="#/" class="btn btn-warning">Cancel</a>
 			</form>
 		</div>

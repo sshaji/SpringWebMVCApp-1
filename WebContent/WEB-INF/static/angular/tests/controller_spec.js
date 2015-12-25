@@ -31,7 +31,7 @@
 		};
 	};
 
-	var mockedMessageHamdler = function() {
+	var mockedMessageHandler = function() {
 		return {
 			showStatus : jasmine.createSpy('showStatus')
 		};
@@ -40,7 +40,7 @@
 	describe("testing offerListController with offers exist in server", function() {
 		beforeEach(module('offersApp', function($provide) {
 			$provide.factory('offerFactory', mockedOfferFactory);
-			$provide.factory('messageHandler', mockedMessageHamdler);
+			$provide.factory('messageHandler', mockedMessageHandler);
 		}));
 		beforeEach(inject(function(_$controller_, _$rootScope_, _offerFactory_, _messageHandler_) {
 			$controller = _$controller_;
@@ -52,7 +52,7 @@
 			beforeEach(inject(function($controller, $rootScope) {
 				$scope = $rootScope.$new();
 				$scope.offers = [];
-				controller = $controller('offerListController', {
+				$controller('offerListController', {
 					offerFactory : offerFactory,
 					messageHandler : messageHandler,
 					$scope : $scope
@@ -66,7 +66,7 @@
 				expect($scope.offers[0]).toEqual('test1');
 			});
 			it('search function should get some offers', function() {
-				controller.searchOffers('test');
+				$scope.searchOffers('test');
 				$scope.$apply();
 				expect($scope.offers[1]).toEqual('test2');
 			});
@@ -76,7 +76,7 @@
 	describe("testing offerEditController with Server connection is Ok", function() {
 		beforeEach(module('offersApp', function($provide) {
 			$provide.factory('offerFactory', mockedOfferFactory);
-			$provide.factory('messageHandler', mockedMessageHamdler);
+			$provide.factory('messageHandler', mockedMessageHandler);
 		}));
 		beforeEach(inject(function(_$controller_, _$rootScope_, _$location_, _offerFactory_, _messageHandler_) {
 			$controller = _$controller_;
@@ -89,7 +89,7 @@
 			beforeEach(inject(function($controller, $rootScope) {
 				$scope = $rootScope.$new();
 				$scope.offers = [];
-				controller = $controller('offerEditController', {
+				$controller('offerEditController', {
 					offerFactory : offerFactory,
 					messageHandler : messageHandler,
 					$scope : $scope,
@@ -107,11 +107,11 @@
 				expect($scope.offer).toEqual('test');
 			});
 			it('should save an offer and set location to /', function() {
-				controller.submitOffer();
+				$scope.submitOffer();
 				expect($location.path()).toEqual('/');
 			});
 			it('should delete an offer and set location to /', function() {
-				controller.deleteOffer();
+				$scope.deleteOffer();
 				expect($location.path()).toEqual('/');
 			});
 		});
