@@ -52,46 +52,47 @@
 	.factory('offerFactory', function(httpRequest) {
 		return {
 			getOffers : function(searchString) {
-				return httpRequest.send({
+				var config = {
 					method : 'GET',
 					url : '/offers' + (angular.isDefined(searchString) ? '?search=' + searchString : '')
-				});
+				}
+				return httpRequest.send(config);
 			},
 			getOffer : function(id) {
-				return httpRequest.send({
+				var config = {
 					method : 'GET',
 					url : '/offers/' + id
-				});
+				}
+				return httpRequest.send(config);
 			},
 			saveOffer : function(offer) {
+				var config = {};
 				if (angular.isDefined(offer.id)) {
-					return httpRequest.send({
+					config = {
 						method : 'PUT',
 						url : '/offers/' + offer.id,
 						data : offer
-					});
+					}
 				} else {
-					return httpRequest.send({
+					config = {
 						method : 'POST',
 						url : '/offers',
 						data : offer
-					});
+					}
 				}
+				return httpRequest.send(config);
 			},
 			deleteOffer : function(id) {
-				return httpRequest.send({
+				var config = {
 					method : 'DELETE',
 					url : '/offers/' + id
-				});
+				}
+				return httpRequest.send(config);
 			}
 		}
 	})
 
-	.factory('httpRequest', function(authenticationFactory, $q, $http) {
-		var buildUrl = function(url) {
-			return 'rest/v1' + url;
-		}
-
+	.factory('httpRequest', function(authenticationFactory, urlBuilder, $q, $http) {
 		var access_token = null;
 		var retryWithNewToken = function(config, deferred) {
 			access_token = authenticationFactory.refreshToken();
@@ -113,7 +114,7 @@
 				access_token.then(function(token) {
 					$http({
 						method : options.method,
-						url : buildUrl(options.url),
+						url : urlBuilder.buildRestEndPoint(options.url),
 						headers : {
 							'access_token' : token
 						},
@@ -133,23 +134,24 @@
 		};
 	})
 
-	.factory('authenticationFactory', function($q, $http) {
-		var saveToken = function(access_token) {
-			window.localStorage.clear();
-			window.localStorage.setItem('access_token', access_token);
-			return true;
+	.factory('authenticationFactory', function(tokenFactory, urlBuilder, $q, $http) {
+		var sendTokenRequest = function() {
+			var deferred = $q.defer();
+			$http({
+				method : 'GET',
+				url : urlBuilder.buildRestEndPoint('/login')
+			}).then(function successCallback(response) {
+				deferred.resolve(response);
+			}, function errorCallback(response) {
+				deferred.reject();
+			});
+			return deferred.promise;
 		};
-		var buildUrl = function(url) {
-			return 'rest/v1' + url;
-		}
 		return {
-			isExpired : function() {
-				return (window.localStorage.getItem('access_token') == '');
-			},
 			getToken : function() {
 				var deferred = $q.defer();
-				if (!this.isExpired()) {
-					deferred.resolve(window.localStorage.getItem('access_token'));
+				if (!tokenFactory.isExpired()) {
+					deferred.resolve(tokenFactory.getToken());
 				} else {
 					deferred.resolve(this.refreshToken());
 				}
@@ -157,25 +159,35 @@
 			},
 			refreshToken : function() {
 				var deferred = $q.defer();
-				this.sendTokenRequest().then(function(response) {
-					saveToken(response.data.access_token);
+				sendTokenRequest().then(function(response) {
+					tokenFactory.saveToken(response.data.access_token);
 					deferred.resolve(response.data.access_token);
 				}, function errorCallback(response) {
 					deferred.reject();
 				});
 				return deferred.promise;
+			}
+		}
+	})
+
+	.factory('tokenFactory', function() {
+		return {
+			isExpired : function() {
+				return (this.getToken() == '');
 			},
-			sendTokenRequest : function() {
-				var deferred = $q.defer();
-				$http({
-					method : 'GET',
-					url : buildUrl('/login')
-				}).then(function successCallback(response) {
-					deferred.resolve(response);
-				}, function errorCallback(response) {
-					deferred.reject();
-				});
-				return deferred.promise;
+			getToken : function() {
+				return window.localStorage.getItem('access_token');
+			},
+			saveToken : function(access_token) {
+				window.localStorage.setItem('access_token', access_token);
+			}
+		}
+	})
+
+	.factory('urlBuilder', function($q, $http) {
+		return {
+			buildRestEndPoint : function(url) {
+				return 'rest/v1' + url;
 			}
 		}
 	})

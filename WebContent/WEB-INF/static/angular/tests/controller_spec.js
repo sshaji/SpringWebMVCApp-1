@@ -2,28 +2,28 @@
 
 	var mockedOfferFactory = function($q) {
 		return {
-			getOffers : jasmine.createSpy('getOffers').and.callFake(function(any) {
+			getOffers : jasmine.createSpy('getOffers').and.callFake(function() {
 				var deferred = $q.defer();
 				deferred.resolve({
 					data : [ 'test1', 'test2' ]
 				});
 				return deferred.promise;
 			}),
-			getOffer : jasmine.createSpy('getOffer').and.callFake(function(any) {
+			getOffer : jasmine.createSpy('getOffer').and.callFake(function() {
 				var deferred = $q.defer();
 				deferred.resolve({
 					data : 'test'
 				});
 				return deferred.promise;
 			}),
-			saveOffer : jasmine.createSpy('getOffer').and.callFake(function(any) {
+			saveOffer : jasmine.createSpy('getOffer').and.callFake(function() {
 				var deferred = $q.defer();
 				deferred.resolve({
 					data : 'test'
 				});
 				return deferred.promise;
 			}),
-			deleteOffer : jasmine.createSpy('getOffer').and.callFake(function(any) {
+			deleteOffer : jasmine.createSpy('getOffer').and.callFake(function() {
 				var deferred = $q.defer();
 				deferred.resolve({});
 				return deferred.promise;
@@ -53,8 +53,6 @@
 				$scope = $rootScope.$new();
 				$scope.offers = [];
 				$controller('offerListController', {
-					offerFactory : offerFactory,
-					messageHandler : messageHandler,
 					$scope : $scope
 				});
 			}));
