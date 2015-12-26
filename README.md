@@ -1,13 +1,11 @@
-## Spring Web MVCApp - SpringWebMVCApp-1
+## web-spring-angular - WebSpringAngular
 ### Java Spring web application sample with :
 * REST API
 * Angular JS based GUI
-* Backbone JS based GUI
 * Simple Jsp UI
  
 #### GUI URLs :
-* Angular : http://server/applicationname/ OR http://server/applicationname/angular
-* Backbone : http://server/applicationname/backbone
+* Angular : http://server/applicationname/
 * JSP : http://server/applicationname/server 
 
 #### MySql Database details :
@@ -21,4 +19,3 @@
 
 #### Database Connection
 * Default : JNDI
-* Available : JDBC

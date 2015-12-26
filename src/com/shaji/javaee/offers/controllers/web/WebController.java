@@ -10,18 +10,8 @@ public class WebController {
 		return "home-angular";
 	}
 
-	@RequestMapping(value = "/angular")
-	public String showHome2() {
-		return "home-angular";
-	}
-
-	@RequestMapping(value = "/backbone")
-	public String showHome3() {
-		return "home-backbone";
-	}
-
 	@RequestMapping(value = "/server")
-	public String showHome4() {
+	public String showHome2() {
 		return "home";
 	}
 }
