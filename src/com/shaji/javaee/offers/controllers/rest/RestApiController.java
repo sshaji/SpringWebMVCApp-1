@@ -2,8 +2,7 @@ package com.shaji.javaee.offers.controllers.rest;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,8 @@ import com.shaji.javaee.offers.model.OffersDAO;
 @RequestMapping(value = "/v1")
 public class RestApiController {
 
-	private String DaoContextXmlUrl = "classpath:com/shaji/javaee/offers/config/dao-context.xml";
+	@Autowired
+	private OffersDAO offersDao;
 
 	/**
 	 * Get all
@@ -37,24 +37,17 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<List<Offer>> get(
-			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@RequestParam(name = "offset", required = false, defaultValue = "0") int offset,
-			@RequestParam(name = "limit", required = false, defaultValue = "25") int limit,
+	public @ResponseBody ResponseEntity<List<Offer>> get(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
+			@RequestParam(name = "offset", required = false, defaultValue = "0") int offset, @RequestParam(name = "limit", required = false, defaultValue = "25") int limit,
 			@RequestParam(name = "search", required = false, defaultValue = "") String searchString) throws DatabaseErrorException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
-		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
-		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
-		List<Offer> retOffers = null;
 		try {
-			retOffers = offersDao.getOffers(offset, limit, searchString);
+			List<Offer> retOffers = offersDao.getOffers(offset, limit, searchString);
 			return new ResponseEntity<List<Offer>>(retOffers, HttpStatus.OK);
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
-		} finally {
-			((ClassPathXmlApplicationContext) context).close();
 		}
 	}
 
@@ -68,14 +61,11 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Offer> getById(
-			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@PathVariable("id") int id) throws RecordNotFoundException, DatabaseErrorException, InvalidLoginException {
+	public @ResponseBody ResponseEntity<Offer> getById(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken, @PathVariable("id") int id)
+			throws RecordNotFoundException, DatabaseErrorException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
-		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
-		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			Offer retOffer = offersDao.getOfferById(id);
 			if (retOffer != null) {
@@ -85,8 +75,6 @@ public class RestApiController {
 			}
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
-		} finally {
-			((ClassPathXmlApplicationContext) context).close();
 		}
 	}
 
@@ -99,22 +87,17 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Offer> create(
-			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@RequestBody Offer offer) throws DatabaseErrorException, InvalidLoginException {
+	public @ResponseBody ResponseEntity<Offer> create(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken, @RequestBody Offer offer)
+			throws DatabaseErrorException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
-		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
-		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			int retId = offersDao.createOffer(offer);
 			Offer retOffer = offersDao.getOfferById(retId);
 			return new ResponseEntity<Offer>(retOffer, HttpStatus.CREATED);
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
-		} finally {
-			((ClassPathXmlApplicationContext) context).close();
 		}
 	}
 
@@ -128,15 +111,11 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<Offer> update(
-			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@PathVariable("id") int id,
+	public @ResponseBody ResponseEntity<Offer> update(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken, @PathVariable("id") int id,
 			@RequestBody Offer offer) throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
-		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
-		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offer.setId(id);
 			if (offersDao.updateOffer(offer)) {
@@ -147,8 +126,6 @@ public class RestApiController {
 			}
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
-		} finally {
-			((ClassPathXmlApplicationContext) context).close();
 		}
 	}
 
@@ -162,14 +139,11 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<String> delete(
-			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@PathVariable("id") int id) throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
+	public @ResponseBody ResponseEntity<String> delete(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken, @PathVariable("id") int id)
+			throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
-		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
-		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			if (offersDao.deleteOffer(id)) {
 				return new ResponseEntity<String>("success", HttpStatus.NO_CONTENT);
@@ -178,8 +152,6 @@ public class RestApiController {
 			}
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
-		} finally {
-			((ClassPathXmlApplicationContext) context).close();
 		}
 	}
 
@@ -192,21 +164,16 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers/masscreate", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> massCreate(
-			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@RequestBody List<Offer> offers) throws DatabaseErrorException, InvalidLoginException {
+	public @ResponseBody ResponseEntity<String> massCreate(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken, @RequestBody List<Offer> offers)
+			throws DatabaseErrorException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
-		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
-		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offersDao.createOffers(offers);
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
-		} finally {
-			((ClassPathXmlApplicationContext) context).close();
 		}
 	}
 
@@ -219,20 +186,16 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers/massupdate", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<String> massUpdate(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@RequestBody List<Offer> offers) throws DatabaseErrorException, InvalidLoginException {
+	public @ResponseBody ResponseEntity<String> massUpdate(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken, @RequestBody List<Offer> offers)
+			throws DatabaseErrorException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
-		ApplicationContext context = new ClassPathXmlApplicationContext(DaoContextXmlUrl);
-		OffersDAO offersDao = (OffersDAO) context.getBean("offersDao");
 		try {
 			offersDao.updateOffers(offers);
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
-		} finally {
-			((ClassPathXmlApplicationContext) context).close();
 		}
 	}
 
