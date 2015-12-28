@@ -14,6 +14,7 @@
 	</jee:jndi-lookup>
 
 	<tx:annotation-driven />
+
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
