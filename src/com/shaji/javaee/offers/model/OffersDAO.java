@@ -33,7 +33,7 @@ public class OffersDAO {
 	 */
 	public List<Offer> getOffers(int offset, int limit, String searchString) {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
-		StringBuffer sql = new StringBuffer();
+		StringBuilder sql = new StringBuilder();
 		sql.append("select * from offers");
 		if (!searchString.isEmpty()) {
 			paramMap.addValue("searchString", "%" + searchString + "%");

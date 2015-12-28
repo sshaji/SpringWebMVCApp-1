@@ -101,7 +101,7 @@ public class RestApiController {
 			throw new InvalidLoginException();
 		}
 		if (result.hasErrors()) {
-			throw new InvalidPayloadException(result.toString());
+			throw new InvalidPayloadException(result);
 		}
 		try {
 			int retId = offersDao.createOffer(offer);
@@ -130,7 +130,7 @@ public class RestApiController {
 			throw new InvalidLoginException();
 		}
 		if (result.hasErrors()) {
-			throw new InvalidPayloadException(result.toString());
+			throw new InvalidPayloadException(result);
 		}
 		try {
 			offer.setId(id);
