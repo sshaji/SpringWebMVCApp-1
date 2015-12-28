@@ -1,5 +1,7 @@
 package com.shaji.javaee.offers.model;
 
+import javax.validation.constraints.Size;
+
 /**
  * Offer Bean
  * 
@@ -7,8 +9,14 @@ package com.shaji.javaee.offers.model;
  */
 public class Offer {
 	private int id;
+
+	@Size(min = 5, max = 60, message = "Name must be between 5 and 60 chars")
 	private String name;
+
+	@Size(min = 5, max = 60, message = "Email must be between 5 and 60 chars")
 	private String email;
+
+	@Size(min = 5, max = 250, message = "Offer must be between 5 and 250 chars")
 	private String offerDetails;
 
 	public Offer() {

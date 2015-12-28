@@ -137,7 +137,7 @@ public class OffersDAO {
 	@Transactional
 	public int[] createOffers(List<Offer> offers) {
 		SqlParameterSource[] batchParams = SqlParameterSourceUtils.createBatch(offers.toArray());
-		String sql = "insert into offers (id, name, email, offerdetails) values (:id, :name, :email, :offerDetails)";
+		String sql = "insert into offers (name, email, offerdetails) values (:name, :email, :offerDetails)";
 
 		return jdbc.batchUpdate(sql, batchParams);
 	}

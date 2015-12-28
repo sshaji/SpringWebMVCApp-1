@@ -8,7 +8,7 @@
 			offerFactory.getOffers(searchString).then(function(response) {
 				$scope.offers = response.data;
 			}, function(response) {
-				messageHandler.showStatus("Error retrieving offers : " + response.statusText, false);
+				messageHandler.showStatus("Error retrieving offers : " + response.statusText + " - " + response.data.error, false);
 				$scope.offers = [];
 			});
 		};
@@ -21,7 +21,7 @@
 			promise.then(function(response) {
 				$scope.offer = response.data;
 			}, function(response) {
-				messageHandler.showStatus("Error retrieving offer : " + response.statusText, false);
+				messageHandler.showStatus("Error retrieving offer : " + response.statusText + " - " + response.data.error, false);
 				$scope.offer = {};
 			});
 		};
@@ -31,7 +31,7 @@
 				messageHandler.showStatus("Offer updated! : " + response.data.id, true);
 				$location.path('/');
 			}, function(response) {
-				messageHandler.showStatus("Error! updating offer : " + response.statusText, false);
+				messageHandler.showStatus("Error! updating offer : " + response.statusText + " - " + response.data.error, false);
 			});
 		};
 		$scope.deleteOffer = function() {
@@ -40,7 +40,7 @@
 				messageHandler.showStatus("Offer deleted!", true);
 				$location.path('/');
 			}, function(response) {
-				messageHandler.showStatus("Error! deleting offer : " + response.statusText, false);
+				messageHandler.showStatus("Error! deleting offer : " + response.statusText + " - " + response.data.error, false);
 			});
 		};
 		var id = $routeParams.id;
