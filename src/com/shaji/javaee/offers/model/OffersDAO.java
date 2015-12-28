@@ -1,13 +1,11 @@
 package com.shaji.javaee.offers.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -53,13 +51,7 @@ public class OffersDAO {
 			sql.append("offset :offset");
 		}
 
-		return jdbc.query(sql.toString(), paramMap, new RowMapper<Offer>() {
-
-			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new Offer(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("offerdetails"));
-			}
-
-		});
+		return jdbc.query(sql.toString(), paramMap, BeanPropertyRowMapper.newInstance(Offer.class));
 	}
 
 	/**
@@ -72,13 +64,7 @@ public class OffersDAO {
 		MapSqlParameterSource paramMap = new MapSqlParameterSource("id", id);
 		String sql = "select * from offers where id = :id";
 
-		return jdbc.queryForObject(sql, paramMap, new RowMapper<Offer>() {
-
-			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
-				return new Offer(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("offerdetails"));
-			}
-
-		});
+		return jdbc.queryForObject(sql, paramMap, BeanPropertyRowMapper.newInstance(Offer.class));
 	}
 
 	/**
