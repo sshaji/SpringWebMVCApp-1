@@ -18,4 +18,4 @@
  - offerdetails (text)
 
 #### Database Connection
-* Default : JNDI
+* Default : JNDI / Hibernate
