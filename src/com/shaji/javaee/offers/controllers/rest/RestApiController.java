@@ -23,15 +23,15 @@ import com.shaji.javaee.offers.controllers.exceptions.DatabaseErrorException;
 import com.shaji.javaee.offers.controllers.exceptions.InvalidLoginException;
 import com.shaji.javaee.offers.controllers.exceptions.InvalidPayloadException;
 import com.shaji.javaee.offers.controllers.exceptions.RecordNotFoundException;
-import com.shaji.javaee.offers.model.Offer;
-import com.shaji.javaee.offers.model.OffersDAO;
+import com.shaji.javaee.offers.model.form.Offer;
+import com.shaji.javaee.offers.service.OffersService;
 
 @RestController
 @RequestMapping(value = "/v1")
 public class RestApiController {
 
 	@Autowired
-	private OffersDAO offersDao;
+	private OffersService offersService;
 
 	/**
 	 * Get all
@@ -51,7 +51,7 @@ public class RestApiController {
 			throw new InvalidLoginException();
 		}
 		try {
-			List<Offer> retOffers = offersDao.getOffers(offset, limit, searchString);
+			List<Offer> retOffers = offersService.getOffers(offset, limit, searchString);
 			return new ResponseEntity<List<Offer>>(retOffers, HttpStatus.OK);
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
@@ -68,13 +68,14 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Offer> getById(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
+	public @ResponseBody ResponseEntity<Offer> getById(
+			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
 			@PathVariable("id") int id) throws RecordNotFoundException, DatabaseErrorException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
 		try {
-			Offer retOffer = offersDao.getOfferById(id);
+			Offer retOffer = offersService.getOfferById(id);
 			if (retOffer != null) {
 				return new ResponseEntity<Offer>(retOffer, HttpStatus.OK);
 			} else {
@@ -95,8 +96,10 @@ public class RestApiController {
 	 * @throws InvalidPayloadException
 	 */
 	@RequestMapping(value = "/offers", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Offer> create(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@RequestBody @Valid Offer offer, BindingResult result) throws DatabaseErrorException, InvalidLoginException, InvalidPayloadException {
+	public @ResponseBody ResponseEntity<Offer> create(
+			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
+			@RequestBody @Valid Offer offer, BindingResult result)
+					throws DatabaseErrorException, InvalidLoginException, InvalidPayloadException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
@@ -104,8 +107,8 @@ public class RestApiController {
 			throw new InvalidPayloadException(result);
 		}
 		try {
-			int retId = offersDao.createOffer(offer);
-			Offer retOffer = offersDao.getOfferById(retId);
+			int retId = offersService.createOffer(offer);
+			Offer retOffer = offersService.getOfferById(retId);
 			return new ResponseEntity<Offer>(retOffer, HttpStatus.CREATED);
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
@@ -123,9 +126,11 @@ public class RestApiController {
 	 * @throws InvalidPayloadException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<Offer> update(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
+	public @ResponseBody ResponseEntity<Offer> update(
+			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
 			@PathVariable("id") int id, @RequestBody @Valid Offer offer, BindingResult result)
-					throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException, InvalidPayloadException {
+					throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException,
+					InvalidPayloadException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
@@ -134,8 +139,8 @@ public class RestApiController {
 		}
 		try {
 			offer.setId(id);
-			if (offersDao.updateOffer(offer)) {
-				Offer retOffer = offersDao.getOfferById(offer.getId());
+			if (offersService.updateOffer(offer)) {
+				Offer retOffer = offersService.getOfferById(offer.getId());
 				return new ResponseEntity<Offer>(retOffer, HttpStatus.OK);
 			} else {
 				throw new RecordNotFoundException();
@@ -155,63 +160,18 @@ public class RestApiController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE)
-	public @ResponseBody ResponseEntity<String> delete(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
+	public @ResponseBody ResponseEntity<String> delete(
+			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
 			@PathVariable("id") int id) throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
 		if (!isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
 		try {
-			if (offersDao.deleteOffer(id)) {
+			if (offersService.deleteOffer(id)) {
 				return new ResponseEntity<String>("success", HttpStatus.NO_CONTENT);
 			} else {
 				throw new RecordNotFoundException();
 			}
-		} catch (DataAccessException ex) {
-			throw new DatabaseErrorException(ex);
-		}
-	}
-
-	/**
-	 * Mass create
-	 * 
-	 * @param users
-	 * @return
-	 * @throws DatabaseErrorException
-	 * @throws InvalidLoginException
-	 */
-	@RequestMapping(value = "/offers/masscreate", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> massCreate(
-			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken, @RequestBody List<Offer> offers)
-					throws DatabaseErrorException, InvalidLoginException {
-		if (!isValidLogin(accessToken)) {
-			throw new InvalidLoginException();
-		}
-		try {
-			offersDao.createOffers(offers);
-			return new ResponseEntity<String>("success", HttpStatus.OK);
-		} catch (DataAccessException ex) {
-			throw new DatabaseErrorException(ex);
-		}
-	}
-
-	/**
-	 * Mass update
-	 * 
-	 * @param offers
-	 * @return
-	 * @throws DatabaseErrorException
-	 * @throws InvalidLoginException
-	 */
-	@RequestMapping(value = "/offers/massupdate", method = RequestMethod.PUT)
-	public @ResponseBody ResponseEntity<String> massUpdate(
-			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken, @RequestBody List<Offer> offers)
-					throws DatabaseErrorException, InvalidLoginException {
-		if (!isValidLogin(accessToken)) {
-			throw new InvalidLoginException();
-		}
-		try {
-			offersDao.updateOffers(offers);
-			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
 		}

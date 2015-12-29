@@ -1,26 +1,38 @@
-package com.shaji.javaee.offers.model;
+package com.shaji.javaee.offers.model.form;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-/**
- * Offer Bean
- * 
- * @author Shaji
- */
+@Entity
+@Table(name = "offers")
 public class Offer {
+	@Id
+	@GeneratedValue
+	@Column(name = "id")
 	private int id;
 
 	@Size(min = 5, max = 60, message = "Name must be between 5 and 60 chars")
+	@Column(name = "name")
 	private String name;
 
 	@Size(min = 5, max = 60, message = "Email must be between 5 and 60 chars")
+	@Column(name = "email")
 	private String email;
 
 	@Size(min = 5, max = 250, message = "Offer must be between 5 and 250 chars")
+	@Column(name = "offerdetails")
 	private String offerDetails;
 
 	public Offer() {
 
+	}
+
+	public Offer(int id) {
+		this.id = id;
 	}
 
 	public Offer(String name, String email, String offerDetails) {

@@ -9,6 +9,8 @@
 	<configs>
 		<config>WebContent/WEB-INF/rest-servlet.xml</config>
 		<config>WebContent/WEB-INF/web-servlet.xml</config>
+		<config>src/com/shaji/javaee/offers/config/service-context.xml</config>
+		<config>test/com/shaji/javaee/offers/test/config/test-context.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/com/shaji/javaee/offers/config/dao-context.xml</config>
