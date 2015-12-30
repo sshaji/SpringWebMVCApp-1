@@ -4,24 +4,19 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Offer</div>
 		<div class="panel-body">
-			<form name="offerForm" ng-controller="offerEditController"
-				ng-submit="submitOffer()" class="edit-user-form">
-				<label>Name</label> <span class="label label-danger"
-					ng-show="offerForm.name.$error.maxlength">Too long!</span> <input
-					name="name" ng-model="offer.name" type="text" class="form-control"
-					ng-required="true" ng-maxlength="60" ng-trim="true"> <label>Email</label>
+			<form name="offerForm" ng-controller="offerEditController" ng-submit="submitOffer()" class="edit-user-form">
+				<label>Name</label>
+				<p>{{offer.user.firstName + " " + offer.user.lastName}}</p>
+				<label>Email</label>
+				<p>{{offer.user.email}}</p>
+				<label>Offer</label> 
 				<span class="label label-danger"
-					ng-show="offerForm.email.$error.maxlength">Too long!</span> <span
-					class="label label-danger" ng-show="offerForm.email.$error.email">Invalid
-					email!</span> <input name="email" ng-model="offer.email" type="email"
-					class="form-control" ng-required="true" ng-maxlength="60"
-					ng-trim="true"> <label>Offer</label> <span
-					class="label label-danger"
 					ng-show="offerForm.offerDetails.$error.maxlength">Too long!</span>
 				<textarea name="offerDetails" ng-model="offer.offerDetails"
 					class="form-control" ng-required="true" ng-maxlength="250"
 					ng-trim="true"></textarea>
 				<input type="hidden" name="id" ng-model="offer.id">
+				<input type="hidden" name="username" ng-model="offer.user.username">
 				<hr />
 				<button type="submit" ng-show="offerForm.$valid"
 					class="btn btn-success">Submit</button>

@@ -2,6 +2,8 @@ package com.shaji.javaee.offers.model.dao.tests;
 
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.shaji.javaee.offers.model.dao.OffersDAO;
+import com.shaji.javaee.offers.model.dao.UsersDAO;
 import com.shaji.javaee.offers.model.form.Offer;
+import com.shaji.javaee.offers.model.form.User;
 
 import junit.framework.TestCase;
 
@@ -20,13 +24,33 @@ import junit.framework.TestCase;
 public class OffersDAOTest extends TestCase {
 
 	@Autowired
+	private UsersDAO usersDao;
+
+	@Autowired
 	private OffersDAO offersDao;
+
+	private User user1 = new User("john", "john", 1, "John", "Test", "john@test.com");
+	private User user2 = new User("ted", "ted", 1, "Ted", "Test", "ted@test.com");
+
+	@Before
+	@Override
+	public void setUp() throws Exception {
+		usersDao.createUser(user1);
+		usersDao.createUser(user2);
+	}
+
+	@After
+	@Override
+	public void tearDown() throws Exception {
+		usersDao.deleteUser(user1.getUserName());
+		usersDao.deleteUser(user2.getUserName());
+	}
 
 	@Test
 	public void testCreateAndFetchOffers() {
-		Offer offer1 = new Offer("John Test", "john@test.com", "I can fix software");
-		Offer offer2 = new Offer("Ted Test", "ted@test.com", "I can fix hardware");
-		Offer offer3 = new Offer("Ash Test", "ash@test.com", "I can fix house");
+		Offer offer1 = new Offer(user1, "I can fix software");
+		Offer offer2 = new Offer(user2, "I can fix hardware");
+		Offer offer3 = new Offer(user2, "I can fix house");
 
 		// Create 3 offers
 		int id1 = offersDao.createOffer(offer1);
@@ -65,18 +89,18 @@ public class OffersDAOTest extends TestCase {
 
 	@Test
 	public void testUpdateOffer() {
-		Offer offer1 = new Offer("John Test", "john@test.com", "I can fix software");
+		Offer offer1 = new Offer(user1, "I can fix software");
 
 		// Create 1 offer
 		int id1 = offersDao.createOffer(offer1);
 
 		// Update name
-		Offer offer1Updated = new Offer(id1, "New Name", "john@test.com", "I can fix software");
+		Offer offer1Updated = new Offer(id1, user1, "I can fix hardware");
 		offersDao.updateOffer(offer1Updated);
 
 		// Get again
 		Offer retOffer = offersDao.getOfferById(id1);
-		assertEquals("Name should have updated to new name", "New Name", retOffer.getName());
+		assertEquals("Name should have updated", "I can fix hardware", retOffer.getOfferDetails());
 
 		// clear
 		offersDao.deleteOffer(id1);
@@ -84,7 +108,7 @@ public class OffersDAOTest extends TestCase {
 
 	@Test
 	public void testDeleteOffer() {
-		Offer offer1 = new Offer("John Test", "john@test.com", "I can fix software");
+		Offer offer1 = new Offer(user1, "I can fix software");
 
 		// Create 1 offer
 		int id1 = offersDao.createOffer(offer1);

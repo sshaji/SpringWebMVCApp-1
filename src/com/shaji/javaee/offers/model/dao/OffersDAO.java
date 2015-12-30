@@ -38,9 +38,11 @@ public class OffersDAO {
 			criteria.setMaxResults(limit);
 		}
 		if (!"".equals(searchString)) {
-			criteria.add(Restrictions.disjunction().add(Restrictions.like("name", "%" + searchString + "%"))
-					.add(Restrictions.like("email", "%" + searchString + "%"))
-					.add(Restrictions.like("offerDetails", "%" + searchString + "%")));
+			criteria.createAlias("user", "u")
+					.add(Restrictions.disjunction().add(Restrictions.like("u.firstName", "%" + searchString + "%"))
+							.add(Restrictions.like("u.lastName", "%" + searchString + "%"))
+							.add(Restrictions.like("u.email", "%" + searchString + "%"))
+							.add(Restrictions.like("offerDetails", "%" + searchString + "%")));
 		}
 		return criteria.list();
 	}

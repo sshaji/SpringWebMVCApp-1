@@ -15,10 +15,6 @@
 			<h1>Offers</h1>
 			<p>J2EE application using Spring framework, Hibernate, MySQL,
 				AngularJS and Bootstrap CSS</p>
-			<p>
-				<a class="btn btn-lg btn-success" href="#" role="button">Sign up
-					today</a>
-			</p>
 		</div>
 		<c:if test="${param.error != null}">
 			<div class="label label-danger">

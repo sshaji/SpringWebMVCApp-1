@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -15,13 +17,9 @@ public class Offer {
 	@Column(name = "id")
 	private int id;
 
-	@Size(min = 5, max = 60, message = "Name must be between 5 and 60 chars")
-	@Column(name = "name")
-	private String name;
-
-	@Size(min = 5, max = 60, message = "Email must be between 5 and 60 chars")
-	@Column(name = "email")
-	private String email;
+	@ManyToOne
+	@JoinColumn(name = "username")
+	private User user;
 
 	@Size(min = 5, max = 250, message = "Offer must be between 5 and 250 chars")
 	@Column(name = "offerdetails")
@@ -35,16 +33,14 @@ public class Offer {
 		this.id = id;
 	}
 
-	public Offer(String name, String email, String offerDetails) {
-		this.name = name;
-		this.email = email;
+	public Offer(int id, User user, String offerDetails) {
+		this.id = id;
+		this.user = user;
 		this.offerDetails = offerDetails;
 	}
 
-	public Offer(int id, String name, String email, String offerDetails) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
+	public Offer(User user, String offerDetails) {
+		this.user = user;
 		this.offerDetails = offerDetails;
 	}
 
@@ -56,20 +52,18 @@ public class Offer {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public User getUser() {
+		return user;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	// Added to allow passing only user name instead of entire User object
+	// From web forms / rest api
+	public String getUserName() {
+		return this.user.getUserName();
 	}
 
 	public String getOfferDetails() {
@@ -78,11 +72,6 @@ public class Offer {
 
 	public void setOfferDetails(String offerDetails) {
 		this.offerDetails = offerDetails;
-	}
-
-	@Override
-	public String toString() {
-		return "Offer [id=" + id + ", name=" + name + ", email=" + email + ", offerDetails=" + offerDetails + "]";
 	}
 
 }

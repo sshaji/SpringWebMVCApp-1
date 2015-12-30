@@ -10,11 +10,22 @@
 
 #### MySql Database details :
 * Database name : test
-* Table name : offers
-* Columns :
+
+ * Table : users
+ - username (varchar - 60 - primary)
+ - password (varchar - 60)
+ - enabled (tinyint - 1)
+ - firstname (varchar - 60)
+ - lastname (varchar - 60)
+ - email (varchar - 60)
+
+ * Table : authorities
+ - username (varchar - 60 - primary - foreign key to users.username)
+ - authorities (varchar - 60)
+ 
+ * Table : offers
  - id (int - primary - auto increment)
- - name (varchar - 100)
- - email (varchar - 100)
+ - username (varchar - 60 - foreign key to users.username)
  - offerdetails (text)
 
 #### Database Connection
