@@ -10,26 +10,36 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
-	<div class="container" style="width:400px">
-		<h2 class="form-signin-heading">Please sign in..</h2>
+	<div class="container">
+		<br>
+		<div class="jumbotron">
+			<h1>Offers - Sample</h1>
+			<h4>Using Spring framework, Hibernate, AngularJS and Bootstrap
+				CSS</h4>
+		</div>
 		<c:if test="${param.error != null}">
-			<div class="alert alert-danger">
-      			<label>Invalid User Name / Password. Please try again.</label>
-    		</div>
+			<div class="label label-danger">
+				<label>Invalid User Name / Password. Please try again.</label>
+			</div>
 		</c:if>
 		<c:if test="${param.logout != null}">
-			<div class="alert alert-success">
-      			<label>You have been logged out successfully.</label>
-    		</div>
+			<div class="label label-success">
+				<label>You have been logged out successfully.</label>
+			</div>
 		</c:if>
-		<form name='f' action='${pageContext.request.contextPath}/login' method='POST' class="form-signin">
-			<input type='text' name='username' value='' placeholder="User Name" class="form-control" required autofocus> 
-			<br>
-			<input type='password' name='password' placeholder="Password" class="form-control" /> 
-			<br> 
-			<input name="submit" type="submit" value="Login" class="btn btn-lg btn-primary btn-block" /> 
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		</form>
+		<h4 class="form-signin-heading">Please sign in..</h4>
+		<div style="width: 250px">
+			<form name='f' action='${pageContext.request.contextPath}/login'
+				method='POST' class="form-signin">
+				<input type='text' name='username' value='' placeholder="User Name"
+					class="form-control" required autofocus> <br> <input
+					type='password' name='password' placeholder="Password"
+					class="form-control" /> <br> <input name="submit"
+					type="submit" value="Login"
+					class="btn btn-lg btn-primary btn-block" /> <input type="hidden"
+					name="${_csrf.parameterName}" value="${_csrf.token}" />
+			</form>
+		</div>
 	</div>
 </body>
 </html>

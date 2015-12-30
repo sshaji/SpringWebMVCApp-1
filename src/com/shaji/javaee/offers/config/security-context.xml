@@ -26,8 +26,8 @@
 		<security:intercept-url access="denyAll"
 			pattern="/**" />
 		<security:form-login login-page="/login"
-			authentication-failure-url="/login?error=true" />
-		<security:logout logout-success-url="/login?logout=true"
+			authentication-failure-url="/login?error" />
+		<security:logout logout-success-url="/login?logout"
 			logout-url="/logout" delete-cookies="JSESSIONID" />
 	</security:http>
 </beans>
