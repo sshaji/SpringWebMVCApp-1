@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 <html ng-app="offersApp">
 <body>
-	<div class="panel panel-default">
-		<div class="panel-heading">Offers - using REST API and Angular JS</div>
-		<div ng-controller="offerListController" class="panel-body">
-			<table style="width:100%">
-				<tr>
-					<td style="width:50%"><a class="btn btn-primary" href="#new">Create New</a></td>
-					<td style="width:50%">
-						<div>
-							<div class="input-group">
-								<input ng-model="searchString" type="text" class="form-control" placeholder="Search for..."> <span class="input-group-btn">
-									<button ng-click="searchOffers(searchString)" class="btn btn-default" type="button">Go!</button>
-								</span>
-							</div>
+	<div ng-controller="offerListController">
+		<table style="width: 100%">
+			<tr>
+				<td style="width: 50%"><a class="btn btn-primary" href="#new">Create
+						New</a></td>
+				<td style="width: 50%">
+					<div>
+						<div class="input-group">
+							<input ng-model="searchString" type="text" class="form-control"
+								placeholder="Search for..."> <span class="input-group-btn">
+								<button ng-click="searchOffers(searchString)" class="btn btn-default"
+									type="button">Go!</button>
+							</span>
 						</div>
-					</td>
+					</div>
+				</td>
+			</tr>
+		</table>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Offer</th>
+					<th></th>
 				</tr>
-			</table>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Offer</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="offer in offers">
-						<td>{{offer.id}}</td>
-						<td>{{offer.name | strLimit:25}}</td>
-						<td>{{offer.email | strLimit:25}}</td>
-						<td>{{offer.offerDetails | strLimit:40}}</td>
-						<td><a ng-hide="offer.noEdit" class="btn btn-info btn-sm" href="#edit/{{offer.id}}">Edit</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+			</thead>
+			<tbody>
+				<tr ng-repeat="offer in offers">
+					<td>{{offer.id}}</td>
+					<td>{{offer.name | strLimit:25}}</td>
+					<td>{{offer.email | strLimit:25}}</td>
+					<td>{{offer.offerDetails | strLimit:40}}</td>
+					<td><a ng-hide="offer.noEdit" class="btn btn-info btn-sm"
+						href="#edit/{{offer.id}}">Edit</a></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

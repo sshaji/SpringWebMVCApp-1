@@ -11,12 +11,18 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
-	<!-- BEGIN: Server code. -->
 	<sql:query var="rs" dataSource="jdbc/testDb">
 		select name, email, offerdetails from offers
 	</sql:query>
 	<div class="panel panel-default">
-		<div class="panel-heading">Offers - Direct access from server</div>
+		<div class="panel-heading">
+			<table width="100%">
+				<tr>
+					<td>Offers - using JSP</td>
+					<td align="right"><jsp:include page="logout_include.jsp"></jsp:include></td>
+				</tr>
+			</table>
+		</div>
 		<div class="panel-body">
 			<table class="table table-striped">
 				<c:forEach var="row" items="${rs.rows}">
@@ -29,6 +35,5 @@
 			</table>
 		</div>
 	</div>
-	<!-- END: Server code. -->
 </body>
 </html>

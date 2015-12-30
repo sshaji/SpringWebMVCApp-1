@@ -11,17 +11,23 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 
+	<security:http pattern="/rest/**" security="none">
+	</security:http>
+
 	<security:http use-expressions="true">
+		<security:intercept-url access="permitAll"
+			pattern="/login" />
 		<security:intercept-url access="isAuthenticated()"
 			pattern="/server" />
-		<security:intercept-url access="permitAll"
+		<security:intercept-url access="isAuthenticated()"
 			pattern="/" />
-		<security:intercept-url access="permitAll"
-			pattern="/rest/**" />
 		<security:intercept-url access="permitAll"
 			pattern="/static/**" />
 		<security:intercept-url access="denyAll"
 			pattern="/**" />
-		<security:form-login />
+		<security:form-login login-page="/login"
+			authentication-failure-url="/login?error=true" />
+		<security:logout logout-success-url="/login?logout=true"
+			logout-url="/logout" delete-cookies="JSESSIONID" />
 	</security:http>
 </beans>

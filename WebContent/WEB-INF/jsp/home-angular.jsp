@@ -13,10 +13,21 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/static/angular/src/app.js"></script>
+<script src="${pageContext.request.contextPath}/static/angular/src/app.js"></script>
 </head>
 <body>
-	<div ng-view ng-app="offersApp"></div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<table width="100%">
+				<tr>
+					<td>Offers - using REST API and Angular JS</td>
+					<td align="right"><jsp:include page="logout_include.jsp"></jsp:include></td>
+				</tr>
+			</table>
+		</div>
+		<div class="panel-body">
+			<div ng-view ng-app="offersApp"></div>
+		</div>
+	</div>
 </body>
 </html>
