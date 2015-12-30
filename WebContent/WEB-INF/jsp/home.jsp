@@ -5,35 +5,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="includes/meta.jsp"></jsp:include>
 <title>Offers - Home</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap-theme.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/static/angular/css/styles.css">
+<jsp:include page="includes/css.jsp"></jsp:include>
 </head>
 <body>
 	<sql:query var="rs" dataSource="jdbc/testDb">
 		select name, email, offerdetails from offers
 	</sql:query>
-	<jsp:include page="logout_include.jsp"></jsp:include>
 	<div class="container">
-		<div class="header clearfix">
-			<nav>
-				<ul class="nav nav-pills pull-right">
-					<li role="presentation"><a href="#">Home</a></li>
-					<li role="presentation"><a href="javascript:logout()">Logout</a></li>
-				</ul>
-			</nav>
-			<h3>Offers</h3>
-			<h5 class="text-muted">GUI - using JSP</h5>
-		</div>
+		<jsp:include page="includes/header.jsp"></jsp:include>
 		<div class="panel panel-default">
-			<div class="panel-heading">Offers</div>
+			<div class="panel-heading">Offers - using JSP</div>
 			<div class="panel-body">
 				<table class="table table-striped">
 					<c:forEach var="row" items="${rs.rows}">
@@ -46,9 +29,7 @@
 				</table>
 			</div>
 		</div>
-		<footer class="footer">
-			<p>&copy; 2015 Shaji.</p>
-		</footer>
+		<jsp:include page="includes/footer.jsp"></jsp:include>
 	</div>
 </body>
 </html>

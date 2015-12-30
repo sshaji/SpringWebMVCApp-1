@@ -4,12 +4,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<jsp:include page="includes/meta.jsp"></jsp:include>
 <title>Login</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+<jsp:include page="includes/css.jsp"></jsp:include>
 </head>
 <body>
 	<div class="container">
@@ -35,8 +32,9 @@
 		</c:if>
 		<h4 class="form-signin-heading">Please sign in..</h4>
 		<div style="width: 250px">
-			<form name='f' action='${pageContext.request.contextPath}/login'
-				method='POST' class="form-signin">
+			<form class="form-signin" name='f'
+				action='${pageContext.request.contextPath}/login' method='POST'
+				class="form-signin">
 				<input type='text' name='username' value='' placeholder="User Name"
 					class="form-control" required autofocus> <br> <input
 					type='password' name='password' placeholder="Password"
