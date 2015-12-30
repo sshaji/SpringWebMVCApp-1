@@ -7,7 +7,7 @@
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:jdbc-user-service
-				data-source-ref="dataSource" />
+				data-source-ref="dataSource" id="jdbcLoginSevice" />
 		</security:authentication-provider>
 	</security:authentication-manager>
 
@@ -27,6 +27,8 @@
 			pattern="/**" />
 		<security:form-login login-page="/login"
 			authentication-failure-url="/login?error" />
+		<security:remember-me key="userName"
+			user-service-ref="jdbcLoginSevice" remember-me-parameter="remember-me" />
 		<security:logout logout-success-url="/login?logout"
 			logout-url="/logout" delete-cookies="JSESSIONID" />
 	</security:http>

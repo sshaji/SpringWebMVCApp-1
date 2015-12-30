@@ -40,7 +40,12 @@
 				<input type='text' name='username' value='' placeholder="User Name"
 					class="form-control" required autofocus> <br> <input
 					type='password' name='password' placeholder="Password"
-					class="form-control" /> <br>
+					class="form-control" />
+				<div class="checkbox">
+					<label> <input type="checkbox" name="remember-me">
+						Remember me
+					</label>
+				</div>
 				<input name="submit" type="submit" value="Login"
 					class="btn btn-sm btn-primary btn-block" /> <input type="hidden"
 					name="${_csrf.parameterName}" value="${_csrf.token}" />
