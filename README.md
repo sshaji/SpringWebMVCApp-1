@@ -9,9 +9,9 @@
 * JSP : http://server/applicationname/server 
 
 #### MySql Database details :
-* Database name : test
+##### Database name : test
 
- * Table : users
+* Table : users
  - username (varchar - 60 - primary)
  - password (varchar - 60)
  - enabled (tinyint - 1)
@@ -19,11 +19,11 @@
  - lastname (varchar - 60)
  - email (varchar - 60)
 
- * Table : authorities
+* Table : authorities
  - username (varchar - 60 - primary - foreign key to users.username)
  - authorities (varchar - 60)
  
- * Table : offers
+* Table : offers
  - id (int - primary - auto increment)
  - username (varchar - 60 - foreign key to users.username)
  - offerdetails (text)
