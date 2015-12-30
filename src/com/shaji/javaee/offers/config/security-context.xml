@@ -26,10 +26,11 @@
 		<security:intercept-url access="denyAll"
 			pattern="/**" />
 		<security:form-login login-page="/login"
-			authentication-failure-url="/login?error" />
-		<security:remember-me key="userName"
-			user-service-ref="jdbcLoginSevice" remember-me-parameter="remember-me" />
+			authentication-failure-url="/login?error" default-target-url="/" />
+		<security:remember-me key="appKey"
+			user-service-ref="jdbcLoginSevice" remember-me-parameter="remember-me"
+			remember-me-cookie="rm" token-validity-seconds="86400" />
 		<security:logout logout-success-url="/login?logout"
-			logout-url="/logout" delete-cookies="JSESSIONID" />
+			logout-url="/logout" invalidate-session="true" />
 	</security:http>
 </beans>
