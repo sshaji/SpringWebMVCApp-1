@@ -7,12 +7,12 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>src/com/shaji/javaee/offers/config/service-context.xml</config>
-		<config>test/com/shaji/javaee/offers/test/config/test-context.xml</config>
-		<config>src/com/shaji/javaee/offers/config/security-context.xml</config>
+		<config>src/com/shaji/javaee/config/dao-context.xml</config>
+		<config>src/com/shaji/javaee/config/security-context.xml</config>
+		<config>src/com/shaji/javaee/config/service-context.xml</config>
+		<config>test/com/shaji/javaee/test/config/test-context.xml</config>
 	</configs>
 	<autoconfigs>
-		<config>src/com/shaji/javaee/offers/config/dao-context.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

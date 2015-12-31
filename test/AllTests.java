@@ -2,11 +2,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.shaji.javaee.offers.model.dao.tests.OffersDAOTest;
-import com.shaji.javaee.offers.model.dao.tests.UsersDAOTest;
+import com.shaji.javaee.repository.tests.OfferRepositoryTest;
+import com.shaji.javaee.repository.tests.UserRepositoryTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ UsersDAOTest.class, OffersDAOTest.class })
+@SuiteClasses({ UserRepositoryTest.class, OfferRepositoryTest.class })
 public class AllTests {
 
 }

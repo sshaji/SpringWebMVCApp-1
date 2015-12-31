@@ -23,7 +23,7 @@
 		</init-param>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>com.shaji.javaee.offers.config.WebMvcConfig</param-value>
+			<param-value>com.shaji.javaee.config.WebMvcConfig</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
@@ -41,7 +41,7 @@
 		</init-param>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>com.shaji.javaee.offers.config.RestApiConfig</param-value>
+			<param-value>com.shaji.javaee.config.RestApiConfig</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
@@ -61,9 +61,9 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-  		classpath:com/shaji/javaee/offers/config/dao-context.xml
-  		classpath:com/shaji/javaee/offers/config/service-context.xml
-  		classpath:com/shaji/javaee/offers/config/security-context.xml
+  		classpath:com/shaji/javaee/config/dao-context.xml
+  		classpath:com/shaji/javaee/config/service-context.xml
+  		classpath:com/shaji/javaee/config/security-context.xml
   		</param-value>
 	</context-param>
 	<context-param>
