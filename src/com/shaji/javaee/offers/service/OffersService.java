@@ -22,11 +22,11 @@ public class OffersService {
 		return offersDao.getOfferById(id);
 	}
 
-	public int createOffer(Offer offer) {
+	public Offer createOffer(Offer offer) {
 		return offersDao.createOffer(offer);
 	}
 
-	public boolean updateOffer(Offer offer) {
+	public Offer updateOffer(Offer offer) {
 		return offersDao.updateOffer(offer);
 	}
 

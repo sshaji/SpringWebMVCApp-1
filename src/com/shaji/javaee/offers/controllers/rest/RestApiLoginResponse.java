@@ -1,9 +1,9 @@
 package com.shaji.javaee.offers.controllers.rest;
 
-public class RestLoginResponse {
+public class RestApiLoginResponse {
 	private String access_token;
 
-	public RestLoginResponse(String access_token) {
+	public RestApiLoginResponse(String access_token) {
 		this.access_token = access_token;
 	}
 

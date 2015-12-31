@@ -26,7 +26,9 @@ public class Offer {
 	private String offerDetails;
 
 	public Offer() {
-
+		// Added to allow setting current user information later when web forms,
+		// Rest APIs sending offer details with our user info
+		this.user = new User();
 	}
 
 	public Offer(int id) {
@@ -58,12 +60,6 @@ public class Offer {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	// Added to allow passing only user name instead of entire User object
-	// From web forms / rest api
-	public String getUserName() {
-		return this.user.getUserName();
 	}
 
 	public String getOfferDetails() {

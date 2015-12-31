@@ -9,7 +9,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -28,7 +27,7 @@ import com.shaji.javaee.offers.service.OffersService;
 
 @RestController
 @RequestMapping(value = "/v1")
-public class RestApiController {
+public class RestApiOffersController {
 
 	@Autowired
 	private OffersService offersService;
@@ -47,7 +46,7 @@ public class RestApiController {
 			@RequestParam(name = "limit", required = false, defaultValue = "25") int limit,
 			@RequestParam(name = "search", required = false, defaultValue = "") String searchString)
 					throws DatabaseErrorException, InvalidLoginException {
-		if (!isValidLogin(accessToken)) {
+		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
 		try {
@@ -71,7 +70,7 @@ public class RestApiController {
 	public @ResponseBody ResponseEntity<Offer> getById(
 			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
 			@PathVariable("id") int id) throws RecordNotFoundException, DatabaseErrorException, InvalidLoginException {
-		if (!isValidLogin(accessToken)) {
+		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
 		try {
@@ -100,15 +99,14 @@ public class RestApiController {
 			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
 			@RequestBody @Valid Offer offer, BindingResult result)
 					throws DatabaseErrorException, InvalidLoginException, InvalidPayloadException {
-		if (!isValidLogin(accessToken)) {
+		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
 		if (result.hasErrors()) {
 			throw new InvalidPayloadException(result);
 		}
 		try {
-			int retId = offersService.createOffer(offer);
-			Offer retOffer = offersService.getOfferById(retId);
+			Offer retOffer = offersService.createOffer(offer);
 			return new ResponseEntity<Offer>(retOffer, HttpStatus.CREATED);
 		} catch (DataAccessException ex) {
 			throw new DatabaseErrorException(ex);
@@ -131,16 +129,15 @@ public class RestApiController {
 			@PathVariable("id") int id, @RequestBody @Valid Offer offer, BindingResult result)
 					throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException,
 					InvalidPayloadException {
-		if (!isValidLogin(accessToken)) {
+		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
 		if (result.hasErrors()) {
 			throw new InvalidPayloadException(result);
 		}
 		try {
-			offer.setId(id);
-			if (offersService.updateOffer(offer)) {
-				Offer retOffer = offersService.getOfferById(offer.getId());
+			if (offersService.getOfferById(id) != null) {
+				Offer retOffer = offersService.updateOffer(offer);
 				return new ResponseEntity<Offer>(retOffer, HttpStatus.OK);
 			} else {
 				throw new RecordNotFoundException();
@@ -163,7 +160,7 @@ public class RestApiController {
 	public @ResponseBody ResponseEntity<String> delete(
 			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
 			@PathVariable("id") int id) throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
-		if (!isValidLogin(accessToken)) {
+		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
 		try {
@@ -177,36 +174,4 @@ public class RestApiController {
 		}
 	}
 
-	private boolean isValidLogin(String accessToken) {
-		String token = "123456789";
-		if (token.equals(accessToken)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@ExceptionHandler(InvalidLoginException.class)
-	private ResponseEntity<RestError> rulesForInvalidLogin(Exception e) {
-		RestError restError = new RestError("Invalid login");
-		return new ResponseEntity<RestError>(restError, HttpStatus.UNAUTHORIZED);
-	}
-
-	@ExceptionHandler(InvalidPayloadException.class)
-	private ResponseEntity<RestError> rulesForInvalidPayload(Exception e) {
-		RestError restError = new RestError("Invalid Payload : " + e.getMessage());
-		return new ResponseEntity<RestError>(restError, HttpStatus.BAD_REQUEST);
-	}
-
-	@ExceptionHandler(RecordNotFoundException.class)
-	private ResponseEntity<RestError> rulesForRecordNotFound(Exception e) {
-		RestError restError = new RestError("Record not found : " + e.getMessage());
-		return new ResponseEntity<RestError>(restError, HttpStatus.NOT_FOUND);
-	}
-
-	@ExceptionHandler(DatabaseErrorException.class)
-	private ResponseEntity<RestError> rulesForDatabaseError(Exception e) {
-		RestError restError = new RestError("Database Error : " + e.getMessage());
-		return new ResponseEntity<RestError>(restError, HttpStatus.BAD_REQUEST);
-	}
 }

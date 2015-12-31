@@ -62,12 +62,11 @@ public class OffersDAO {
 	 * Create an offer
 	 * 
 	 * @param offer
-	 * @return id of the created record
+	 * @return created record
 	 */
-	public int createOffer(Offer offer) {
+	public Offer createOffer(Offer offer) {
 		session().save(offer);
-		session().flush();
-		return offer.getId();
+		return offer;
 	}
 
 	/**
@@ -76,10 +75,9 @@ public class OffersDAO {
 	 * @param offer
 	 * @return
 	 */
-	public boolean updateOffer(Offer offer) {
+	public Offer updateOffer(Offer offer) {
 		session().update(offer);
-		session().flush();
-		return true;
+		return offer;
 	}
 
 	/**
@@ -91,7 +89,6 @@ public class OffersDAO {
 	 */
 	public boolean deleteOffer(int id) {
 		session().delete(new Offer(id));
-		session().flush();
 		return true;
 	}
 

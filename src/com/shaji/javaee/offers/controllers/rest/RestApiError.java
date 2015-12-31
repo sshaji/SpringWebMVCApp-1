@@ -1,13 +1,13 @@
 package com.shaji.javaee.offers.controllers.rest;
 
-public class RestError {
+public class RestApiError {
 	private String error;
 
-	public RestError() {
+	public RestApiError() {
 
 	}
 
-	public RestError(String error) {
+	public RestApiError(String error) {
 		this.error = error;
 	}
 

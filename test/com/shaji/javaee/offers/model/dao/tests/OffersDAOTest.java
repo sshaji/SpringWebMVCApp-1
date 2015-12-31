@@ -53,13 +53,13 @@ public class OffersDAOTest extends TestCase {
 		Offer offer3 = new Offer(user2, "I can fix house");
 
 		// Create 3 offers
-		int id1 = offersDao.createOffer(offer1);
-		int id2 = offersDao.createOffer(offer2);
-		int id3 = offersDao.createOffer(offer3);
+		offer1 = offersDao.createOffer(offer1);
+		offer2 = offersDao.createOffer(offer2);
+		offer3 = offersDao.createOffer(offer3);
 
-		assertNotNull("Create offer should return the id of the record", id1);
-		assertNotNull("Create offer should return the id of the record", id2);
-		assertNotNull("Create offer should return the id of the record", id3);
+		assertNotNull("Create offer should return the id of the record", offer1.getId());
+		assertNotNull("Create offer should return the id of the record", offer2.getId());
+		assertNotNull("Create offer should return the id of the record", offer3.getId());
 
 		// Get all
 		List<Offer> retOffers = offersDao.getOffers(0, 0, "");
@@ -78,13 +78,13 @@ public class OffersDAOTest extends TestCase {
 		assertEquals("Search for house shoud return 1 offer", 1, retOffers.size());
 
 		// Get with id
-		Offer retOffer = offersDao.getOfferById(id1);
-		assertEquals("Get with id shoud return 1 offer with that id", id1, retOffer.getId());
+		Offer retOffer = offersDao.getOfferById(offer1.getId());
+		assertEquals("Get with id shoud return 1 offer with that id", offer1.getId(), retOffer.getId());
 
 		// clear
-		offersDao.deleteOffer(id1);
-		offersDao.deleteOffer(id2);
-		offersDao.deleteOffer(id3);
+		offersDao.deleteOffer(offer1.getId());
+		offersDao.deleteOffer(offer2.getId());
+		offersDao.deleteOffer(offer3.getId());
 	}
 
 	@Test
@@ -92,18 +92,18 @@ public class OffersDAOTest extends TestCase {
 		Offer offer1 = new Offer(user1, "I can fix software");
 
 		// Create 1 offer
-		int id1 = offersDao.createOffer(offer1);
+		offer1 = offersDao.createOffer(offer1);
 
 		// Update name
-		Offer offer1Updated = new Offer(id1, user1, "I can fix hardware");
+		Offer offer1Updated = new Offer(offer1.getId(), user1, "I can fix hardware");
 		offersDao.updateOffer(offer1Updated);
 
 		// Get again
-		Offer retOffer = offersDao.getOfferById(id1);
+		Offer retOffer = offersDao.getOfferById(offer1.getId());
 		assertEquals("Name should have updated", "I can fix hardware", retOffer.getOfferDetails());
 
 		// clear
-		offersDao.deleteOffer(id1);
+		offersDao.deleteOffer(offer1.getId());
 	}
 
 	@Test
@@ -111,13 +111,13 @@ public class OffersDAOTest extends TestCase {
 		Offer offer1 = new Offer(user1, "I can fix software");
 
 		// Create 1 offer
-		int id1 = offersDao.createOffer(offer1);
+		offer1 = offersDao.createOffer(offer1);
 
 		// Delete offer
-		offersDao.deleteOffer(id1);
+		offersDao.deleteOffer(offer1.getId());
 
 		// Get
-		Offer retOffer = offersDao.getOfferById(id1);
+		Offer retOffer = offersDao.getOfferById(offer1.getId());
 		assertNull("Offer should be deleted", retOffer);
 	}
 
