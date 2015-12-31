@@ -1,7 +1,9 @@
 package com.shaji.javaee.offers.model.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,17 @@ public class UsersDAO {
 
 	private Session session() {
 		return sessionFactory.getCurrentSession();
+	}
+
+	/**
+	 * Get a user
+	 * 
+	 * @param userName
+	 * @return
+	 */
+	public User getUserByUserName(String userName) {
+		Criteria criteria = session().createCriteria(User.class).add(Restrictions.eq("userName", userName));
+		return (User) criteria.uniqueResult();
 	}
 
 	/**

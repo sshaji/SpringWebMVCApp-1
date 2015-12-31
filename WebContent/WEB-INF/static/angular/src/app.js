@@ -15,7 +15,7 @@
 		$scope.searchOffers();
 	})
 
-	.controller('offerEditController', function(offerFactory, messageHandler, $scope, $routeParams, $location) {
+	.controller('offerEditController', function(offerFactory, userFactory, messageHandler, $scope, $routeParams, $location) {
 		$scope.getOffer = function(id) {
 			var promise = offerFactory.getOffer(id);
 			promise.then(function(response) {
@@ -43,9 +43,21 @@
 				messageHandler.showStatus("Error! deleting offer : " + response.statusText + " - " + response.data.error, false);
 			});
 		};
+		$scope.setUser = function() {
+			var promise = userFactory.me();
+			promise.then(function(response) {
+				$scope.offer.user = response.data;
+			}, function(response) {
+				messageHandler.showStatus("Error retrieving user info : " + response.statusText + " - " + response.data.error, false);
+				$scope.offer.user = {};
+			});
+		};
 		var id = $routeParams.id;
 		if (id) {
 			$scope.getOffer(id);
+		} else {
+			$scope.offer = {};
+			$scope.setUser();
 		}
 	})
 
@@ -86,6 +98,18 @@
 				var config = {
 					method : 'DELETE',
 					url : '/offers/' + id
+				}
+				return httpRequest.send(config);
+			}
+		}
+	})
+
+	.factory('userFactory', function(httpRequest) {
+		return {
+			me : function() {
+				var config = {
+					method : 'GET',
+					url : '/me'
 				}
 				return httpRequest.send(config);
 			}
