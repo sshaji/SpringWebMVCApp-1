@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -14,10 +16,12 @@ public class User {
 	@Size(min = 3, max = 60, message = "Username must be between 3 and 60 chars")
 	private String userName;
 
+	@JsonIgnore
 	@Column(name = "password")
 	@Size(min = 3, max = 60, message = "Password must be between 3 and 60 chars")
 	private String password;
 
+	@JsonIgnore
 	@Column(name = "enabled")
 	private int enabled;
 
