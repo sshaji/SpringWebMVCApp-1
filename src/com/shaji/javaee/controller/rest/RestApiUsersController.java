@@ -1,5 +1,7 @@
 package com.shaji.javaee.controller.rest;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -34,14 +36,14 @@ public class RestApiUsersController {
 	 * @throws InvalidLoginException
 	 */
 	@RequestMapping(value = "/me", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<User>
-			me(@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken)
+	public @ResponseBody ResponseEntity<User> me(Principal principal,
+			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken)
 					throws InvalidLoginException, RecordNotFoundException, DatabaseErrorException {
 		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
 		try {
-			User retUser = usersService.getUserByUserName("asha");
+			User retUser = usersService.getUserByUserName(principal.getName());
 			if (retUser != null) {
 				return new ResponseEntity<User>(retUser, HttpStatus.OK);
 			} else {

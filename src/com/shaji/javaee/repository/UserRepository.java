@@ -27,7 +27,7 @@ public class UserRepository {
 	 * @param userName
 	 * @return
 	 */
-	public User getByUserName(String userName) {
+	public User getById(String userName) {
 		Criteria criteria = session().createCriteria(User.class).add(Restrictions.eq("userName", userName));
 		return (User) criteria.uniqueResult();
 	}
