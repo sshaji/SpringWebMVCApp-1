@@ -37,7 +37,7 @@
 						<td>{{offer.user.firstName + " " + offer.user.lastName | strLimit:25}}</td>
 						<td>{{offer.user.email | strLimit:25}}</td>
 						<td>{{offer.offerDetails | strLimit:40}}</td>
-						<td><a ng-hide="offer.noEdit" class="btn btn-info btn-sm"
+						<td><a ng-show="offer.user.userName == user.userName" class="btn btn-info btn-sm"
 							href="#edit/{{offer.id}}">Edit</a></td>
 					</tr>
 				</tbody>

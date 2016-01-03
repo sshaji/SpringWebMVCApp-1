@@ -3,7 +3,7 @@
 
 	angular.module('offersApp', [ 'ngRoute' ])
 
-	.controller('offerListController', function(offerFactory, messageHandler, $scope) {
+	.controller('offerListController', function(offerFactory, userFactory, messageHandler, $scope) {
 		$scope.searchOffers = function(searchString) {
 			offerFactory.getOffers(searchString).then(function(response) {
 				$scope.offers = response.data;
@@ -12,6 +12,16 @@
 				$scope.offers = [];
 			});
 		};
+		$scope.setUser = function() {
+			var promise = userFactory.me();
+			promise.then(function(response) {
+				$scope.user = response.data;
+			}, function(response) {
+				messageHandler.showStatus("Error retrieving user info : " + response.statusText + " - " + response.data.error, false);
+				$scope.user = {};
+			});
+		};
+		$scope.setUser();
 		$scope.searchOffers();
 	})
 

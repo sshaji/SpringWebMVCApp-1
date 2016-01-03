@@ -9,4 +9,4 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-rc.0/angular-route.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/static/angular/src/app.js"></script>
+	src="${pageContext.request.contextPath}/static/angular/js/app.js"></script>
