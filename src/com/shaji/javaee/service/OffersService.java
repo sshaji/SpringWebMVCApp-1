@@ -15,23 +15,24 @@ public class OffersService {
 	private OfferRepository offerRepository;
 
 	public List<Offer> getOffers(int offset, int limit, String searchString) {
-		return offerRepository.get(offset, limit, searchString);
+		return offerRepository.findAll();
 	}
 
-	public Offer getOfferById(int id) {
-		return offerRepository.getById(id);
+	public Offer getOfferById(String id) {
+		return offerRepository.findOne(id);
 	}
 
 	public Offer createOffer(Offer offer) {
-		return offerRepository.create(offer);
+		return offerRepository.save(offer);
 	}
 
 	public Offer updateOffer(Offer offer) {
-		return offerRepository.update(offer);
+		return offerRepository.save(offer);
 	}
 
-	public boolean deleteOffer(int id) {
-		return offerRepository.delete(id);
+	public boolean deleteOffer(String id) {
+		offerRepository.delete(id);
+		return true;
 	}
 
 }

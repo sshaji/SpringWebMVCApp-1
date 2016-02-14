@@ -70,7 +70,8 @@ public class RestApiOffersController {
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Offer> getById(
 			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@PathVariable("id") int id) throws RecordNotFoundException, DatabaseErrorException, InvalidLoginException {
+			@PathVariable("id") String id)
+					throws RecordNotFoundException, DatabaseErrorException, InvalidLoginException {
 		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}
@@ -127,7 +128,7 @@ public class RestApiOffersController {
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.PUT)
 	public @ResponseBody ResponseEntity<Offer> update(
 			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@PathVariable("id") int id, @RequestBody @Valid Offer offer, BindingResult result)
+			@PathVariable("id") String id, @RequestBody @Valid Offer offer, BindingResult result)
 					throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException,
 					InvalidPayloadException {
 		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
@@ -160,7 +161,8 @@ public class RestApiOffersController {
 	@RequestMapping(value = "/offers/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody ResponseEntity<String> delete(
 			@RequestHeader(name = "access_token", required = false, defaultValue = "") String accessToken,
-			@PathVariable("id") int id) throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
+			@PathVariable("id") String id)
+					throws DatabaseErrorException, RecordNotFoundException, InvalidLoginException {
 		if (!RestApiLoginHandler.isValidLogin(accessToken)) {
 			throw new InvalidLoginException();
 		}

@@ -2,37 +2,25 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<context:component-scan base-package="com.shaji.javaee.repository"></context:component-scan>
+	<tx:annotation-driven />
 
 	<beans profile="production">
-		<jee:jndi-lookup jndi-name="jdbc/testDb" id="dataSource"
-			expected-type="javax.sql.DataSource">
-		</jee:jndi-lookup>
+		<mongo:mongo id="mongo" host="localhost" port="27017"></mongo:mongo>
 
-		<bean id="transactionManager"
-			class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-			<property name="dataSource" ref="dataSource"></property>
+		<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+			<constructor-arg ref="mongo" />
+			<constructor-arg name="databaseName" value="offers" />
 		</bean>
-		<tx:annotation-driven />
 
-		<bean id="sessionFactory"
-			class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-			<property name="dataSource" ref="dataSource"></property>
-			<property name="hibernateProperties">
-				<props>
-					<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				</props>
-			</property>
-			<property name="packagesToScan">
-				<list>
-					<value>com.shaji.javaee.model</value>
-				</list>
-			</property>
-		</bean>
+		<mongo:repositories base-package="com.shaji.javaee.repository">
+		</mongo:repositories>
 	</beans>
 </beans>

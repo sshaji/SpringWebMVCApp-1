@@ -1,29 +1,21 @@
 package com.shaji.javaee.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "offers")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "offers")
 public class Offer {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private int id;
+	private String id;
 
-	@ManyToOne
-	@JoinColumn(name = "username")
+	@DBRef
 	private User user;
 
 	@Size(min = 5, max = 250, message = "Offer must be between 5 and 250 chars")
-	@Column(name = "offerdetails")
 	private String offerDetails;
 
 	public Offer() {
@@ -32,26 +24,27 @@ public class Offer {
 		this.user = new User();
 	}
 
-	public Offer(int id) {
+	public Offer(String id) {
 		this.id = id;
 	}
 
-	public Offer(int id, User user, String offerDetails) {
+	public Offer(String id, User user, String offerDetails) {
 		this.id = id;
 		this.user = user;
 		this.offerDetails = offerDetails;
 	}
 
+	@PersistenceConstructor
 	public Offer(User user, String offerDetails) {
 		this.user = user;
 		this.offerDetails = offerDetails;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

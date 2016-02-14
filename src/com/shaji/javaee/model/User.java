@@ -1,39 +1,35 @@
 package com.shaji.javaee.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
-@Table(name = "users")
+@Document(collection = "users")
 public class User {
 	@Id
-	@Column(name = "username")
+	@Field("_id")
 	@Size(min = 3, max = 60, message = "Username must be between 3 and 60 chars")
-	private String userName;
+	private String username;
 
 	@JsonIgnore
-	@Column(name = "password")
 	@Size(min = 3, max = 60, message = "Password must be between 3 and 60 chars")
 	private String password;
 
 	@JsonIgnore
-	@Column(name = "enabled")
 	private int enabled;
 
-	@Column(name = "firstname")
 	@Size(min = 3, max = 60, message = "First name must be between 3 and 60 chars")
 	private String firstName;
 
-	@Column(name = "lastname")
 	@Size(min = 3, max = 60, message = "Last name must be between 3 and 60 chars")
 	private String lastName;
 
-	@Column(name = "email")
 	@Size(min = 5, max = 60, message = "Email must be between 5 and 250 chars")
 	private String email;
 
@@ -41,12 +37,13 @@ public class User {
 
 	}
 
-	public User(String userName) {
-		this.userName = userName;
+	public User(String username) {
+		this.username = username;
 	}
 
-	public User(String userName, String password, int enabled, String firstName, String lastName, String email) {
-		this.userName = userName;
+	@PersistenceConstructor
+	public User(String username, String password, int enabled, String firstName, String lastName, String email) {
+		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
 		this.firstName = firstName;
@@ -54,12 +51,12 @@ public class User {
 		this.email = email;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -109,7 +106,7 @@ public class User {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -137,10 +134,10 @@ public class User {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
-		if (userName == null) {
-			if (other.userName != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!username.equals(other.username))
 			return false;
 		return true;
 	}

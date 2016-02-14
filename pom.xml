@@ -126,6 +126,11 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${springframework.security.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.8.2.RELEASE</version>
+		</dependency>
 	</dependencies>
 	<properties>
 		<springframework.version>4.2.4.RELEASE</springframework.version>

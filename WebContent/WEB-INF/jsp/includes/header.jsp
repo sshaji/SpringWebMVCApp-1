@@ -11,5 +11,5 @@
 	</nav>
 	<h3>Offers</h3>
 	<p class="text-muted">J2EE application using Spring framework,
-		Hibernate, MySQL, AngularJS and Bootstrap CSS</p>
+		Hibernate, MongoDB, AngularJS and Bootstrap CSS</p>
 </div>

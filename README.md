@@ -8,25 +8,18 @@
 * Angular : http://server/applicationname/
 * JSP : http://server/applicationname/server 
 
-#### MySql Database details :
-##### Database name : test
+#### MongoDB Database details :
+##### Database name : offers
 
-* Table : users
- - username (varchar - 60 - primary)
- - password (varchar - 60)
- - enabled (tinyint - 1)
- - firstname (varchar - 60)
- - lastname (varchar - 60)
- - email (varchar - 60)
-
-* Table : authorities
- - username (varchar - 60 - primary - foreign key to users.username)
- - authorities (varchar - 60)
+* Collection : users
+ - _id (primary)
+ - password 
+ - enabled
+ - firstName
+ - lastName
+ - email
  
-* Table : offers
- - id (int - primary - auto increment)
- - username (varchar - 60 - foreign key to users.username)
- - offerdetails (text)
-
-#### Database Connection
-* Default : JNDI / Hibernate
+* Collection : offers
+ - _id (primary)
+ - user (DbRef to users)
+ - offerDetails

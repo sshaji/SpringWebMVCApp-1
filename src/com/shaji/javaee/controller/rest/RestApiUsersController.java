@@ -43,7 +43,7 @@ public class RestApiUsersController {
 			throw new InvalidLoginException();
 		}
 		try {
-			User retUser = usersService.getUserByUserName(principal.getName());
+			User retUser = usersService.getUserDetail(principal.getName());
 			if (retUser != null) {
 				return new ResponseEntity<User>(retUser, HttpStatus.OK);
 			} else {
